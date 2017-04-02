@@ -1,5 +1,6 @@
 package hello;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -27,10 +28,20 @@ public class GreetingController {
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="lattitude", defaultValue="0") double lattitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
         int radius =500;
-        String types ="";
-        String key="";
+        String types ="food";
+        String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
         String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lattitude+","+longitude+"&radius="+radius+"&types="+types+"&key="+key;
-        String place="";
+
+        try {
+            URL url = new URL(placeString);
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            String strTemp = "";
+            while (null != (strTemp = br.readLine())) {
+                System.out.println(strTemp);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         return new Greeting(counter.incrementAndGet(), String.format(template, lattitude, longitude));
     }
