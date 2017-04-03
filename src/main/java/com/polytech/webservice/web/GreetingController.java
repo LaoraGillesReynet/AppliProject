@@ -13,7 +13,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.spi.CalendarNameProvider;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
@@ -47,7 +49,10 @@ public class GreetingController {
         System.out.println("Nous sommes le "+day+" "+date+", le temps est "+conditionMeteo+", la température extérieure est de "+temperature+"°C.");
         System.out.println("Vous vous trouvez à "+altitude+"m d'altitude, le vent souffle à "+vitesseVent+"km/h direction "+dirVent);
 
-
+        //Heure grâce à Calendar
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.YEAR));
+        System.out.println(cal.get(Calendar.HOUR_OF_DAY)+"h "+cal.get(Calendar.MINUTE)+"m et "+cal.get(Calendar.SECOND)+"s");
 
         //Requête API Google Places
         int radius =500;
