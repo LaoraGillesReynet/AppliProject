@@ -1,6 +1,7 @@
 package com.polytech.webservice.web;
 
 import com.polytech.webservice.Greeting;
+import com.polytech.webservice.data.MeteoRequest;
 import com.polytech.webservice.data.PlacesRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,18 +28,21 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public PlacesRequest placesRequest(@RequestParam(value="lattitude", defaultValue="0") double lattitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+    public MeteoRequest meteoRequest(@RequestParam(value="lattitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
         //Requête API Météo
+        String meteoString = "http://www.prevision-meteo.ch/services/json/lat="+latitude+"lng="+longitude;
+        RestTemplate restTemplateMeteo = new RestTemplate();
+        MeteoRequest meteoRequest = restTemplateMeteo.getForObject(meteoString, MeteoRequest.class);
+        System.out.println(meteoRequest.toString());
 
         //Requête API Google Places
         int radius =500;
         String types ="food";
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
-        String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lattitude+","+longitude+"&radius="+radius+"&types="+types+"&key="+key;
+        String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&types="+types+"&key="+key;
 
         RestTemplate restTemplate = new RestTemplate();
-        PlacesRequest request = restTemplate.getForObject(placeString, PlacesRequest.class);
-        System.out.println(request);
+        PlacesRequest placesRequest = restTemplate.getForObject(placeString, PlacesRequest.class);
 
 
         //With jsonObject
@@ -65,6 +69,6 @@ public class GreetingController {
         }
         */
 
-        return request;
+        return meteoRequest;
     }
 }
