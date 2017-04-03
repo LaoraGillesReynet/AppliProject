@@ -57,7 +57,7 @@ public class GreetingController {
         String typesString ="";
         while(iterator.hasNext()){
             String current = iterator.next();
-            typesString+=typesString+"|"+current;
+            typesString = typesString+"|"+current;
         }
         //Rayon et clé API
         int radius =500;
