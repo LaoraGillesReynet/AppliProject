@@ -28,7 +28,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public MeteoRequest meteoRequest(@RequestParam(value="lattitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+    public PlacesRequest placesRequest(@RequestParam(value="lattitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat="+latitude+"lng="+longitude;
         RestTemplate restTemplateMeteo = new RestTemplate();
@@ -83,6 +83,6 @@ public class GreetingController {
         }
         */
 
-        return meteoRequest;
+        return placesRequest;
     }
 }
