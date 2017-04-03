@@ -52,13 +52,16 @@ public class GreetingController {
         //Requête API Google Places
         //Initialisation Types
         InitializeArrayTypes initializer = new InitializeArrayTypes();
-        ArrayList<String> arrayTypes = initializer.InitializeArray(heure, minutes, conditionMeteo, temperature, vitesseVent);
-        Iterator<String> iterator = arrayTypes.iterator();
+        initializer.InitializeArray(heure, minutes, conditionMeteo, temperature, vitesseVent);
+        Iterator<String> iterator = initializer.getArray().iterator();
         String typesString ="";
         while(iterator.hasNext()){
             String current = iterator.next();
             typesString = typesString+"|"+current;
         }
+        typesString = typesString.substring(1);
+
+        System.out.println(typesString);
         //Rayon et clé API
         int radius =5000;
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
