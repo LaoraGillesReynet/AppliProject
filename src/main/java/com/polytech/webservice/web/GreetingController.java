@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -47,13 +49,21 @@ public class GreetingController {
         int heure = cal.get(Calendar.HOUR_OF_DAY);
         int minutes = cal.get(Calendar.MINUTE);
 
-        InitializeArrayTypes initializeArrayTypes = new InitializeArrayTypes(heure, minutes, conditionMeteo, temperature, vitesseVent);
-
         //Requête API Google Places
+        //Initialisation Types
+        InitializeArrayTypes initializer = new InitializeArrayTypes();
+        ArrayList<String> arrayTypes = initializer.InitializeArray(heure, minutes, conditionMeteo, temperature, vitesseVent);
+        Iterator<String> iterator = arrayTypes.iterator();
+        String typesString ="";
+        while(iterator.hasNext()){
+            String current = iterator.next();
+            typesString+=typesString+"|"+current;
+        }
+        //Rayon et clé API
         int radius =500;
-        String types ="food|bar";
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
-        String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&types="+types+"&key="+key;
+        //String de l'url avec paramètre
+        String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&types="+typesString+"&key="+key;
 
         RestTemplate restTemplate = new RestTemplate();
         PlacesRequest placesRequest = restTemplate.getForObject(placeString, PlacesRequest.class);
