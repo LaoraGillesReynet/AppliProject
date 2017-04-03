@@ -16,6 +16,7 @@ public class PlacesValue {
     private int rating;
     private ArrayList<String> types;
     private String vicinity;
+    private OpeningHours opening_hours;
 
     public Geometry getGeometry() {
         return geometry;
@@ -114,6 +115,23 @@ public class PlacesValue {
             public void setLng(double lng){
                 this.lng = lng;
             }
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public class OpeningHours{
+        private boolean open_now;
+
+        public OpeningHours(){
+
+        }
+
+        public boolean isOpen_now() {
+            return open_now;
+        }
+
+        public void setOpen_now(boolean open_now) {
+            this.open_now = open_now;
         }
     }
 }

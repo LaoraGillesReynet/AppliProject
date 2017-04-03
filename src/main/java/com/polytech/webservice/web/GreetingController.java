@@ -1,6 +1,6 @@
 package com.polytech.webservice.web;
 
-import com.polytech.webservice.Greeting;
+import com.polytech.webservice.business.InitializeArrayTypes;
 import com.polytech.webservice.data.MeteoRequest;
 import com.polytech.webservice.data.PlacesRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,16 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.json.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.spi.CalendarNameProvider;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 /**
  * Created by Laora on 02/04/2017.
@@ -30,7 +22,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public PlacesRequest placesRequest(@RequestParam(value="lattitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+    public PlacesRequest placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat="+latitude+"lng="+longitude;
         RestTemplate restTemplateMeteo = new RestTemplate();
@@ -49,10 +41,13 @@ public class GreetingController {
         System.out.println("Nous sommes le "+day+" "+date+", le temps est "+conditionMeteo+", la température extérieure est de "+temperature+"°C.");
         System.out.println("Vous vous trouvez à "+altitude+"m d'altitude, le vent souffle à "+vitesseVent+"km/h direction "+dirVent);
 
+
         //Heure grâce à Calendar
         Calendar cal = Calendar.getInstance();
-        System.out.println(cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.YEAR));
-        System.out.println(cal.get(Calendar.HOUR_OF_DAY)+"h "+cal.get(Calendar.MINUTE)+"m et "+cal.get(Calendar.SECOND)+"s");
+        int heure = cal.get(Calendar.HOUR_OF_DAY);
+        int minutes = cal.get(Calendar.MINUTE);
+
+        InitializeArrayTypes initializeArrayTypes = new InitializeArrayTypes(heure, minutes, conditionMeteo, temperature, vitesseVent);
 
         //Requête API Google Places
         int radius =500;
@@ -89,5 +84,7 @@ public class GreetingController {
         */
 
         return placesRequest;
+
+
     }
 }
