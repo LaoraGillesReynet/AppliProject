@@ -60,7 +60,7 @@ public class GreetingController {
             typesString = typesString+"|"+current;
         }
         //Rayon et clé API
-        int radius =500;
+        int radius =5000;
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
         //String de l'url avec paramètre
         String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&types="+typesString+"&key="+key;

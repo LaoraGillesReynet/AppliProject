@@ -1,6 +1,7 @@
 package com.polytech.webservice.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlacesValue {
     private Geometry geometry;
+    private String name;
     private String icon;
     private String id;
     private String place_id;
@@ -20,6 +22,22 @@ public class PlacesValue {
 
     public Geometry getGeometry() {
         return geometry;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public OpeningHours getOpening_hours() {
+        return opening_hours;
+    }
+
+    public void setOpening_hours(OpeningHours opening_hours) {
+        this.opening_hours = opening_hours;
     }
 
     public void setGeometry(Geometry geometry) {
