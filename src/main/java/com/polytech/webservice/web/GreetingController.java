@@ -51,7 +51,7 @@ public class GreetingController {
 
         //Requête API Google Places
         int radius =500;
-        String types ="food";
+        String types ="food|bar";
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
         String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&types="+types+"&key="+key;
 
