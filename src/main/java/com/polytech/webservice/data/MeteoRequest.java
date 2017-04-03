@@ -285,8 +285,8 @@ public class MeteoRequest {
     public class FcstDay0{
         private String date;
         private String day_short;
-        private int t_min;
-        private int t_max;
+        private int tmin;
+        private int tmax;
         private String condition;
 
         public FcstDay0(){
@@ -309,20 +309,20 @@ public class MeteoRequest {
             this.day_short = day_short;
         }
 
-        public int getT_min() {
-            return t_min;
+        public int getTmin() {
+            return tmin;
         }
 
-        public void setT_min(int t_min) {
-            this.t_min = t_min;
+        public void setTmin(int tmin) {
+            this.tmin = tmin;
         }
 
-        public int getT_max() {
-            return t_max;
+        public int getTmax() {
+            return tmax;
         }
 
-        public void setT_max(int t_max) {
-            this.t_max = t_max;
+        public void setTmax(int tmax) {
+            this.tmax = tmax;
         }
 
         public String getCondition() {
@@ -338,8 +338,8 @@ public class MeteoRequest {
             return "FcstDay0{" +
                     "date='" + date + '\'' +
                     ", day_short='" + day_short + '\'' +
-                    ", t_min=" + t_min +
-                    ", t_max=" + t_max +
+                    ", tmin=" + tmin +
+                    ", tmax=" + tmax +
                     ", condition='" + condition + '\'' +
                     '}';
         }

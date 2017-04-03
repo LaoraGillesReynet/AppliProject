@@ -35,6 +35,20 @@ public class GreetingController {
         MeteoRequest meteoRequest = restTemplateMeteo.getForObject(meteoString, MeteoRequest.class);
         System.out.println(meteoRequest.toString());
 
+        // Variables importantes
+        int temperature = meteoRequest.getCurrent_condition().getTmp();
+        String date = meteoRequest.getCurrent_condition().getDate();
+        String day = meteoRequest.getFcst_day_0().getDay_short();
+        double altitude = meteoRequest.getForecast_info().getElevation();
+        String conditionMeteo = meteoRequest.getCurrent_condition().getCondition();
+        int vitesseVent = meteoRequest.getCurrent_condition().getWnd_spd();
+        String dirVent = meteoRequest.getCurrent_condition().getWnd_dir();
+
+        System.out.println("Nous sommes le "+day+" "+date+", le temps est "+conditionMeteo+", la température extérieure est de "+temperature+"°C.");
+        System.out.println("Vous vous trouvez à "+altitude+"m d'altitude, le vent souffle à "+vitesseVent+"km/h direction "+dirVent);
+
+
+
         //Requête API Google Places
         int radius =500;
         String types ="food";
