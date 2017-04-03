@@ -1,4 +1,4 @@
-package hello;
+package com.polytech.webservice;
 
 /**
  * Created by Laora on 02/04/2017.
