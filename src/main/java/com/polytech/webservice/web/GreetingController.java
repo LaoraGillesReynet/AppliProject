@@ -1,14 +1,14 @@
 package com.polytech.webservice.web;
 
 import com.polytech.webservice.business.InitializeArrayTypes;
-import com.polytech.webservice.data.MeteoRequest;
-import com.polytech.webservice.data.PlacesRequest;
+import com.polytech.webservice.dataApi.MeteoRequest;
+import com.polytech.webservice.dataApi.PlaceDetailsRequest;
+import com.polytech.webservice.dataApi.PlacesRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
@@ -97,7 +97,17 @@ public class GreetingController {
         */
 
         return placesRequest;
+    }
 
+    @RequestMapping("/greeting/detail")
+    public PlaceDetailsRequest placeDetail(@RequestParam(value="id", defaultValue="0") String place_id) {
 
+        //Requête API Google Place Details
+        String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
+        String placeDetailsString = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+place_id+"&key="+key;
+        RestTemplate restTemplateDetail = new RestTemplate();
+        PlaceDetailsRequest placeDetailsRequest = restTemplateDetail.getForObject(placeDetailsString, PlaceDetailsRequest.class);
+
+        return placeDetailsRequest;
     }
 }

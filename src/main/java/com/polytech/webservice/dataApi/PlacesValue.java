@@ -1,7 +1,6 @@
-package com.polytech.webservice.data;
+package com.polytech.webservice.dataApi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import java.util.ArrayList;
 

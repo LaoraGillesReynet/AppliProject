@@ -1,8 +1,6 @@
-package com.polytech.webservice.data;
+package com.polytech.webservice.dataApi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.omg.CORBA.Current;
 
 /**
  * Created by User on 03/04/2017.
