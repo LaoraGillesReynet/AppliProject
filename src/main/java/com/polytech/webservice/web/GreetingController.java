@@ -2,8 +2,8 @@ package com.polytech.webservice.web;
 
 import com.polytech.webservice.business.InitializeArrayTypes;
 import com.polytech.webservice.dataApi.MeteoRequest;
-import com.polytech.webservice.dataApi.PlaceDetailsRequest;
-import com.polytech.webservice.dataApi.PlacesRequest;
+import com.polytech.webservice.dataApi.PlaceDetailRequest;
+import com.polytech.webservice.dataApi.PlaceRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +24,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public PlacesRequest placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+    public PlaceRequest placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat="+latitude+"lng="+longitude;
         RestTemplate restTemplateMeteo = new RestTemplate();
@@ -69,7 +69,7 @@ public class GreetingController {
         String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&types="+typesString+"&key="+key;
 
         RestTemplate restTemplate = new RestTemplate();
-        PlacesRequest placesRequest = restTemplate.getForObject(placeString, PlacesRequest.class);
+        PlaceRequest placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
 
 
         //With jsonObject
@@ -96,18 +96,18 @@ public class GreetingController {
         }
         */
 
-        return placesRequest;
+        return placeRequest;
     }
 
     @RequestMapping("/greeting/detail")
-    public PlaceDetailsRequest placeDetail(@RequestParam(value="id", defaultValue="0") String place_id) {
+    public PlaceDetailRequest placeDetail(@RequestParam(value="id", defaultValue="0") String place_id) {
 
         //Requête API Google Place Details
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
         String placeDetailsString = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+place_id+"&key="+key;
         RestTemplate restTemplateDetail = new RestTemplate();
-        PlaceDetailsRequest placeDetailsRequest = restTemplateDetail.getForObject(placeDetailsString, PlaceDetailsRequest.class);
+        PlaceDetailRequest placeDetailRequest = restTemplateDetail.getForObject(placeDetailsString, PlaceDetailRequest.class);
 
-        return placeDetailsRequest;
+        return placeDetailRequest;
     }
 }

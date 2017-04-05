@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by User on 03/04/2017.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PlacesValue {
+public class PlaceValue {
     private Geometry geometry;
     private String name;
     private String icon;
