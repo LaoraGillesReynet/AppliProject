@@ -1,0 +1,38 @@
+package com.polytech.webservice.dataBdd;
+
+/**
+ * Created by Cyprien on 05/04/2017.
+ */
+public class Photo{
+    private int height;
+    private int width;
+    private String reference;
+
+    public Photo(){
+
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+}

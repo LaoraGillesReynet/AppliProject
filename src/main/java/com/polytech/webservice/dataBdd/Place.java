@@ -1,6 +1,7 @@
 package com.polytech.webservice.dataBdd;
 
 
+import com.polytech.webservice.dataApi.PlaceValue;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
@@ -18,14 +19,13 @@ public class Place {
     private String address;
     private double latitude;
     private double longitude;
-    private String icon;
     private ArrayList<String> types;
     private int rating;
     private String phoneNumber;
     private String website;
-    private Horaires horaires;
+    private HorairesHebdo horaires_hebdo;
     private ArrayList<Comment> comment;
-    private ArrayList<String> photoRefs;
+    private ArrayList<Photo> photoRefs;
 
     public Place(){
 
@@ -37,7 +37,6 @@ public class Place {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.icon = icon;
         this.types = types;
         this.rating = rating;
     }
@@ -90,14 +89,6 @@ public class Place {
         this.longitude = longitude;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public ArrayList<String> getTypes() {
         return types;
     }
@@ -130,47 +121,27 @@ public class Place {
         this.website = website;
     }
 
-    public Horaires getHoraires() {
-        return horaires;
+    public HorairesHebdo getHoraires_hebdo() {
+        return horaires_hebdo;
     }
 
-    public void setHoraires(Horaires horaires) {
-        this.horaires = horaires;
+    public void setHoraires_hebdo(HorairesHebdo horaires_hebdo) {
+        this.horaires_hebdo = horaires_hebdo;
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<Comment> getComment() {
         return comment;
     }
 
-    public void setComments(ArrayList<Comment> comment) {
+    public void setComment(ArrayList<Comment> comment) {
         this.comment = comment;
     }
 
-    public ArrayList<String> getPhotoRefs() {
+    public ArrayList<Photo> getPhotoRefs() {
         return photoRefs;
     }
 
-    public void setPhotoRefs(ArrayList<String> photoRefs) {
+    public void setPhotoRefs(ArrayList<Photo> photoRefs) {
         this.photoRefs = photoRefs;
-    }
-
-    @Override
-    public String toString() {
-        return "Place{" +
-                "id='" + id + '\'' +
-                ", place_id='" + place_id + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", icon='" + icon + '\'' +
-                ", types=" + types +
-                ", rating=" + rating +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", website='" + website + '\'' +
-                ", horaires=" + horaires +
-                ", comment=" + comment +
-                ", photoRefs=" + photoRefs +
-                '}';
     }
 }

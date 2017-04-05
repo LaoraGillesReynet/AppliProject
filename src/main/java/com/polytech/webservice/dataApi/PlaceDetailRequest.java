@@ -9,18 +9,18 @@ import java.util.ArrayList;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceDetailRequest {
-    private ArrayList<PlaceValue> results;
+    private ArrayList<PlaceDetailValue> results;
     private String status;
 
     public PlaceDetailRequest(){
 
     }
 
-    public ArrayList<PlaceValue> getResults() {
+    public ArrayList<PlaceDetailValue> getResults() {
         return results;
     }
 
-    public void setResults(ArrayList<PlaceValue> results) {
+    public void setResults(ArrayList<PlaceDetailValue> results) {
         this.results = results;
     }
 

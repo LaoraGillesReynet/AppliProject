@@ -158,7 +158,7 @@ public class PlaceDetailValue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private class Review {
+    public class Review {
         private String author_name;
         private String language;
         private int rating;
