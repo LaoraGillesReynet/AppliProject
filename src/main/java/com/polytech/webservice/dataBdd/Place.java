@@ -24,7 +24,7 @@ public class Place {
     private String phoneNumber;
     private String website;
     private Horaires horaires;
-    private Comments comments;
+    private ArrayList<Comment> comment;
     private ArrayList<String> photoRefs;
 
     public Place(){
@@ -138,12 +138,12 @@ public class Place {
         this.horaires = horaires;
     }
 
-    public Comments getComments() {
-        return comments;
+    public ArrayList<Comment> getComments() {
+        return comment;
     }
 
-    public void setComments(Comments comments) {
-        this.comments = comments;
+    public void setComments(ArrayList<Comment> comment) {
+        this.comment = comment;
     }
 
     public ArrayList<String> getPhotoRefs() {
@@ -169,7 +169,7 @@ public class Place {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", website='" + website + '\'' +
                 ", horaires=" + horaires +
-                ", comments=" + comments +
+                ", comment=" + comment +
                 ", photoRefs=" + photoRefs +
                 '}';
     }

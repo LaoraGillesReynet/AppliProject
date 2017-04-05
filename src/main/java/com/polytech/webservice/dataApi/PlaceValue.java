@@ -138,6 +138,9 @@ public class PlaceValue {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class OpeningHours{
         private boolean open_now;
+        private ArrayList<HorairesJour> periods;
+        private ArrayList<String> weekday_text;
+
 
         public OpeningHours(){
 
@@ -149,6 +152,56 @@ public class PlaceValue {
 
         public void setOpen_now(boolean open_now) {
             this.open_now = open_now;
+        }
+
+        public class HorairesJour{
+            private Hours open;
+            private Hours close;
+
+            public HorairesJour(){
+
+            }
+
+            public Hours getOpen() {
+                return open;
+            }
+
+            public void setOpen(Hours open) {
+                this.open = open;
+            }
+
+            public Hours getClose() {
+                return close;
+            }
+
+            public void setClose(Hours close) {
+                this.close = close;
+            }
+
+            public class Hours{
+                int day;
+                String time;
+
+                public Hours(){
+
+                }
+
+                public int getDay() {
+                    return day;
+                }
+
+                public void setDay(int day) {
+                    this.day = day;
+                }
+
+                public String getTime() {
+                    return time;
+                }
+
+                public void setTime(String time) {
+                    this.time = time;
+                }
+            }
         }
     }
 }
