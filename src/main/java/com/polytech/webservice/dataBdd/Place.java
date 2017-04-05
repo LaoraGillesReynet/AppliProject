@@ -24,6 +24,7 @@ public class Place {
     private String phoneNumber;
     private String website;
     private HorairesHebdo horaires_hebdo;
+
     private ArrayList<Comment> comment;
     private ArrayList<Photo> photoRefs;
 

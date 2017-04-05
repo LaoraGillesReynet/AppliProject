@@ -120,7 +120,6 @@ public class GreetingController {
             place.setComment(commentArrayList);
 
             repository.save(place);
-
         }
         //With jsonObject
         /*try {
@@ -145,7 +144,12 @@ public class GreetingController {
             ex.printStackTrace();
         }
         */
-
+        // fetch all places
+        System.out.println("Places found with findAll():");
+        System.out.println("-------------------------------");
+        for (Place placetest : repository.findAll()) {
+            System.out.println(placetest.getName());
+        }
         return placeRequest;
     }
 }
