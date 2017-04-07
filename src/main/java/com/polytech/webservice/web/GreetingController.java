@@ -64,7 +64,7 @@ public class GreetingController {
 
         //Requête API Google Places
         //Rayon et clé API
-        int radius =5000;
+        int radius =10000;
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
 
         //Initialisation des types
@@ -77,6 +77,7 @@ public class GreetingController {
             typeString += '|'+current;
         }
         typeString = typeString.substring(1);
+        System.out.println(typeString);
 
         //String de l'url avec paramètre
         String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&types="+typeString+"&radius="+radius+"&key="+key+"&page_token=";
@@ -88,7 +89,7 @@ public class GreetingController {
         System.out.println(placeRequest);
 
         String page_token = placeRequest.getNext_page_token();
-        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&types="+typeString+"&radius="+radius+"&key="+key+"&next_page_token="+page_token;
+        placeString = placeString+"&next_page_token="+page_token;
         compteurGoogleRequest += 1;
         restTemplate = new RestTemplate();
         placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
