@@ -3,6 +3,7 @@ package com.polytech.webservice.web;
 import com.polytech.webservice.dataApi.*;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
+import com.polytech.webservice.utils.InitializerArrayTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 import com.polytech.webservice.dataBdd.*;
 
@@ -41,7 +43,7 @@ public class GreetingController {
         MeteoRequest meteoRequest = restTemplateMeteo.getForObject(meteoString, MeteoRequest.class);
         System.out.println(meteoRequest.toString());
 
-        // Variables importantes
+        // Variables importantes météo
         int temperature = meteoRequest.getCurrent_condition().getTmp();
         String date = meteoRequest.getCurrent_condition().getDate();
         String day = meteoRequest.getFcst_day_0().getDay_short();
@@ -61,18 +63,35 @@ public class GreetingController {
 
 
         //Requête API Google Places
-
         //Rayon et clé API
         int radius =5000;
         String key="AIzaSyDYuot7UKUyjnymjMt9M2KoyHSmqg_JTzM";
+
+        //Initialisation des types
         String typeString="";
+        InitializerArrayTypes initializer = new InitializerArrayTypes();
+        initializer.initialize();
+        Iterator<String> iterator = initializer.getArrayTypes().iterator();
+        while (iterator.hasNext()){
+            String current = iterator.next();
+            typeString += '|'+current;
+        }
+        typeString = typeString.substring(1);
+
         //String de l'url avec paramètre
-        String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&radius="+radius+"&key="+key;
+        String placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&types="+typeString+"&radius="+radius+"&key="+key+"&page_token=";
+
         compteurGoogleRequest += 1;
 
         RestTemplate restTemplate = new RestTemplate();
         PlaceRequest placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
         System.out.println(placeRequest);
+
+        String page_token = placeRequest.getNext_page_token();
+        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+latitude+","+longitude+"&types="+typeString+"&radius="+radius+"&key="+key+"&next_page_token="+page_token;
+        compteurGoogleRequest += 1;
+        restTemplate = new RestTemplate();
+        placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
 
         boolean ok = false;
         for(int i = 0; i < placeRequest.getResults().size(); i++) {
@@ -177,6 +196,8 @@ public class GreetingController {
             System.out.println(placetest.getName());
         }
         System.out.println(compteurGoogleRequest);
+
+        repository.deleteAll();
         return placeRequest;
     }
 }

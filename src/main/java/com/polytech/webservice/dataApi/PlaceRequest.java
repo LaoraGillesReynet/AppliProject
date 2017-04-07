@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceRequest {
+    private String next_page_token;
     private ArrayList<PlaceValue> results;
     private String status;
 
@@ -31,6 +32,14 @@ public class PlaceRequest {
 
     public void setStatus(String status){
 
+    }
+
+    public String getNext_page_token() {
+        return next_page_token;
+    }
+
+    public void setNext_page_token(String next_page_token) {
+        this.next_page_token = next_page_token;
     }
 
     @Override
