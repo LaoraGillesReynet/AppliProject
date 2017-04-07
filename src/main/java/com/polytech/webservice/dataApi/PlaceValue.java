@@ -17,7 +17,6 @@ public class PlaceValue {
     private int rating;
     private ArrayList<String> types;
     private String vicinity;
-    private OpeningHours opening_hours;
 
     public Geometry getGeometry() {
         return geometry;
@@ -29,14 +28,6 @@ public class PlaceValue {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public OpeningHours getOpening_hours() {
-        return opening_hours;
-    }
-
-    public void setOpening_hours(OpeningHours opening_hours) {
-        this.opening_hours = opening_hours;
     }
 
     public void setGeometry(Geometry geometry) {
@@ -91,6 +82,20 @@ public class PlaceValue {
         this.vicinity = vicinity;
     }
 
+    @Override
+    public String toString() {
+        return "PlaceValue{" +
+                "geometry=" + geometry +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", id='" + id + '\'' +
+                ", place_id='" + place_id + '\'' +
+                ", rating=" + rating +
+                ", types=" + types +
+                ", vicinity='" + vicinity + '\'' +
+                '}';
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class Geometry{
 
@@ -132,92 +137,21 @@ public class PlaceValue {
             public void setLng(double lng){
                 this.lng = lng;
             }
-        }
-    }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public class OpeningHours{
-        private boolean open_now;
-        private ArrayList<HoursDay> periods;
-        private ArrayList<String> weekday_text;
-
-
-        public OpeningHours(){
-
-        }
-
-        public boolean isOpen_now() {
-            return open_now;
-        }
-
-        public void setOpen_now(boolean open_now) {
-            this.open_now = open_now;
-        }
-
-        public ArrayList<HoursDay> getPeriods() {
-            return periods;
-        }
-
-        public void setPeriods(ArrayList<HoursDay> periods) {
-            this.periods = periods;
-        }
-
-        public ArrayList<String> getWeekday_text() {
-            return weekday_text;
-        }
-
-        public void setWeekday_text(ArrayList<String> weekday_text) {
-            this.weekday_text = weekday_text;
-        }
-
-        public class HoursDay{
-            private Hours open;
-            private Hours close;
-
-            public HoursDay(){
-
+            @Override
+            public String toString() {
+                return "Location{" +
+                        "lat=" + lat +
+                        ", lng=" + lng +
+                        '}';
             }
+        }
 
-            public Hours getOpen() {
-                return open;
-            }
-
-            public void setOpen(Hours open) {
-                this.open = open;
-            }
-
-            public Hours getClose() {
-                return close;
-            }
-
-            public void setClose(Hours close) {
-                this.close = close;
-            }
-
-            public class Hours{
-                int day;
-                String time;
-
-                public Hours(){
-
-                }
-
-                public int getDay() {
-                    return day;
-                }
-
-                public void setDay(int day) {
-                    this.day = day;
-                }
-
-                public String getTime() {
-                    return time;
-                }
-
-                public void setTime(String time) {
-                    this.time = time;
-                }
-            }
+        @Override
+        public String toString() {
+            return "Geometry{" +
+                    "location=" + location +
+                    '}';
         }
     }
 }

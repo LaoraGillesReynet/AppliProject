@@ -33,4 +33,11 @@ public class PlaceRequest {
 
     }
 
+    @Override
+    public String toString() {
+        return "PlaceRequest{" +
+                "results=" + results +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

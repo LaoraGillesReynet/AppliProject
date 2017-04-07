@@ -31,4 +31,12 @@ public class PlaceDetailRequest {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "PlaceDetailRequest{" +
+                "result=" + result +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

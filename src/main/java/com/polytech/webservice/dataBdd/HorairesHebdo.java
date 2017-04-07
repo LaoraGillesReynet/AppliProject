@@ -34,7 +34,7 @@ public class HorairesHebdo{
         this.horairesHebdo = horairesHebdo;
     }
 
-    public class HorairesJour{
+    public static class HorairesJour{
         private String ouverture;
         private String fermeture;
 

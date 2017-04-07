@@ -74,7 +74,7 @@ public class Comment{
         this.aspectArrayList = aspectArrayList;
     }
 
-    public class Aspect{
+    public static class Aspect{
         private int rating;
         private String type;
 

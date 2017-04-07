@@ -25,6 +25,7 @@ public class Place{
     private String address;
     private double latitude;
     private double longitude;
+    private String icon;
     private ArrayList<String> types;
     private int rating;
     private String phoneNumber;
@@ -70,6 +71,14 @@ public class Place{
 
     public void setPlace_id(String place_id) {
         this.place_id = place_id;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getName() {

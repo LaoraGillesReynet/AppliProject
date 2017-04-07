@@ -13,10 +13,10 @@ public class PlaceDetailValue {
     private String formatted_address;
     private String formatted_phone_number;
     private String international_phone_number;
-    private PlaceValue.OpeningHours opening_hours;
 
     private ArrayList<PhotoAttribute> photos;
     private float rating;
+    private OpeningHours opening_hours;
     private ArrayList<Review> reviews;
 
     private int utc_offset;
@@ -24,6 +24,14 @@ public class PlaceDetailValue {
 
     public PlaceDetailValue(){
 
+    }
+
+    public OpeningHours getOpening_hours() {
+        return opening_hours;
+    }
+
+    public void setOpening_hours(OpeningHours opening_hours) {
+        this.opening_hours = opening_hours;
     }
 
     public String getFormatted_address() {
@@ -48,14 +56,6 @@ public class PlaceDetailValue {
 
     public void setInternational_phone_number(String international_phone_number) {
         this.international_phone_number = international_phone_number;
-    }
-
-    public PlaceValue.OpeningHours getOpening_hours() {
-        return opening_hours;
-    }
-
-    public void setOpening_hours(PlaceValue.OpeningHours opening_hours) {
-        this.opening_hours = opening_hours;
     }
 
     public ArrayList<PhotoAttribute> getPhotos() {
@@ -114,7 +114,7 @@ public class PlaceDetailValue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class PhotoAttribute {
+    public static class PhotoAttribute {
         private int height;
         private String photo_reference;
         private int width;
@@ -123,6 +123,11 @@ public class PlaceDetailValue {
 
         }
 
+        public PhotoAttribute(int height, String photo_reference, int width) {
+            this.height = height;
+            this.photo_reference = photo_reference;
+            this.width = width;
+        }
 
         public int getHeight() {
             return height;
@@ -159,7 +164,7 @@ public class PlaceDetailValue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Review {
+    public static class Review {
         private String author_name;
         private String language;
         private int rating;
@@ -220,7 +225,7 @@ public class PlaceDetailValue {
         }
 
         @JsonIgnoreProperties(ignoreUnknown = true)
-        public class Aspects{
+        public static class Aspects{
             private String types;
             private int rating;
 
@@ -252,5 +257,126 @@ public class PlaceDetailValue {
                         '}';
             }
         }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class OpeningHours{
+        private boolean open_now;
+        private ArrayList<HoursDay> periods;
+        private ArrayList<String> weekday_text;
+
+
+        public OpeningHours(){
+
+        }
+
+        public boolean isOpen_now() {
+            return open_now;
+        }
+
+        public void setOpen_now(boolean open_now) {
+            this.open_now = open_now;
+        }
+
+        public ArrayList<HoursDay> getPeriods() {
+            return periods;
+        }
+
+        public void setPeriods(ArrayList<HoursDay> periods) {
+            this.periods = periods;
+        }
+
+        public ArrayList<String> getWeekday_text() {
+            return weekday_text;
+        }
+
+        public void setWeekday_text(ArrayList<String> weekday_text) {
+            this.weekday_text = weekday_text;
+        }
+
+        @Override
+        public String toString() {
+            return "OpeningHours{" +
+                    "open_now=" + open_now +
+                    ", periods=" + periods +
+                    ", weekday_text=" + weekday_text +
+                    '}';
+        }
+
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class HoursDay{
+            private Hours open;
+            private Hours close;
+
+            public HoursDay(){
+
+            }
+
+            public Hours getOpen() {
+                return open;
+            }
+
+            public void setOpen(Hours open) {
+                this.open = open;
+            }
+
+            public Hours getClose() {
+                if (close == null)
+                    return new Hours();
+                else
+                    return close;
+            }
+
+            public void setClose(Hours close) {
+                if (close == null)
+                    this.close = new Hours();
+                else
+                    this.close = close;
+            }
+
+            @Override
+            public String toString() {
+                return "HoursDay{" +
+                        "open=" + open +
+                        ", close=" + close +
+                        '}';
+            }
+
+            @JsonIgnoreProperties(ignoreUnknown = true)
+            public static class Hours{
+                int day;
+                String time;
+
+                public Hours(){
+
+                }
+
+                public int getDay() {
+                    return day;
+                }
+
+                public void setDay(int day) {
+                    this.day = day;
+                }
+
+                public String getTime() {
+                    return time;
+                }
+
+                public void setTime(String time) {
+                    this.time = time;
+                }
+
+                @Override
+                public String toString() {
+                    return "Hours{" +
+                            "day=" + day +
+                            ", time='" + time + '\'' +
+                            '}';
+                }
+            }
+        }
+
+
     }
 }
