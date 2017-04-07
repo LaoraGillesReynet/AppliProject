@@ -1,5 +1,6 @@
 package com.polytech.webservice.config;
 
+import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
 @ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class Application{
+
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

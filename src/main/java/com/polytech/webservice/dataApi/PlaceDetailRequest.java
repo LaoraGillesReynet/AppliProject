@@ -9,19 +9,19 @@ import java.util.ArrayList;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceDetailRequest {
-    private ArrayList<PlaceDetailValue> results;
+    private PlaceDetailValue result;
     private String status;
 
     public PlaceDetailRequest(){
 
     }
 
-    public ArrayList<PlaceDetailValue> getResults() {
-        return results;
+    public PlaceDetailValue getResult() {
+        return result;
     }
 
-    public void setResults(ArrayList<PlaceDetailValue> results) {
-        this.results = results;
+    public void setResult(PlaceDetailValue result) {
+        this.result = result;
     }
 
     public String getStatus() {

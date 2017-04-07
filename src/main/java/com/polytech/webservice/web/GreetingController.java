@@ -6,6 +6,7 @@ import com.polytech.webservice.dataApi.PlaceRequest;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import com.polytech.webservice.dataBdd.*;
 
 @RestController
 @EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
+@ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class GreetingController {
 
     @Autowired
@@ -80,41 +82,41 @@ public class GreetingController {
             //Création et initialisation de l'objet Place avant ajout en bdd
             Place place = new Place();
             place.setName(placeRequest.getResults().get(i).getName());
-            place.setAddress(placeDetailRequest.getResults().get(0).getFormatted_address());
+            place.setAddress(placeDetailRequest.getResult().getFormatted_address());
             place.setLatitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLat());
             place.setLongitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLng());
             place.setTypes(placeRequest.getResults().get(i).getTypes());
             place.setRating(placeRequest.getResults().get(i).getRating());
-            place.setPhoneNumber(placeDetailRequest.getResults().get(0).getFormatted_phone_number());
-            place.setWebsite(placeDetailRequest.getResults().get(0).getWebsite());
+            place.setPhoneNumber(placeDetailRequest.getResult().getFormatted_phone_number());
+            place.setWebsite(placeDetailRequest.getResult().getWebsite());
 
             HorairesHebdo horairesHebdo = new HorairesHebdo();
             ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
             for (int j = 0; j < cal.get(Calendar.DAY_OF_WEEK); j++)
             {
                 HorairesHebdo.HorairesJour horairesJour = horairesHebdo.getHoraires_jour().get(j);
-                horairesJour.setOuverture(placeDetailRequest.getResults().get(0).getOpening_hours().getPeriods().get(j).getOpen().getTime());
-                horairesJour.setFermeture(placeDetailRequest.getResults().get(0).getOpening_hours().getPeriods().get(j).getClose().getTime());
+                horairesJour.setOuverture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(j).getOpen().getTime());
+                horairesJour.setFermeture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(j).getClose().getTime());
                 horairesJours.add(horairesJour);
             }
             horairesHebdo.setHoraires_jour(horairesJours);
             place.setHoraires_hebdo(horairesHebdo);
 
             ArrayList<Comment> commentArrayList = new ArrayList<>();
-            for (int k=0; k < placeDetailRequest.getResults().get(0).getReviews().size(); k++){
+            for (int k=0; k < placeDetailRequest.getResult().getReviews().size(); k++){
                 Comment comment = new Comment();
-                comment.setAuteur(placeDetailRequest.getResults().get(0).getReviews().get(k).getAuthor_name());
-                comment.setCommentaire(placeDetailRequest.getResults().get(0).getReviews().get(k).getText());
-                comment.setLanguage(placeDetailRequest.getResults().get(0).getReviews().get(k).getLanguage());
-                comment.setRating(placeDetailRequest.getResults().get(0).getReviews().get(k).getRating());
-                comment.setTime(placeDetailRequest.getResults().get(0).getReviews().get(k).getTime());
+                comment.setAuteur(placeDetailRequest.getResult().getReviews().get(k).getAuthor_name());
+                comment.setCommentaire(placeDetailRequest.getResult().getReviews().get(k).getText());
+                comment.setLanguage(placeDetailRequest.getResult().getReviews().get(k).getLanguage());
+                comment.setRating(placeDetailRequest.getResult().getReviews().get(k).getRating());
+                comment.setTime(placeDetailRequest.getResult().getReviews().get(k).getTime());
 
                 ArrayList<Comment.Aspect> aspectArrayList= new ArrayList<>();
-                for (int l=0; l < placeDetailRequest.getResults().get(0).getReviews().get(k).getAspects().size() ; l++)
+                for (int l=0; l < placeDetailRequest.getResult().getReviews().get(k).getAspects().size() ; l++)
                 {
                     Comment.Aspect aspect = comment.getAspectArrayList().get(l);
-                    aspect.setRating(placeDetailRequest.getResults().get(0).getReviews().get(k).getAspects().get(l).getRating());
-                    aspect.setType(placeDetailRequest.getResults().get(0).getReviews().get(k).getAspects().get(l).getTypes());
+                    aspect.setRating(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getRating());
+                    aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
                     aspectArrayList.add(aspect);
                 }
             }
