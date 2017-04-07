@@ -196,8 +196,6 @@ public class GreetingController {
             System.out.println(placetest.getName());
         }
         System.out.println(compteurGoogleRequest);
-
-        repository.deleteAll();
         return placeRequest;
     }
 }
