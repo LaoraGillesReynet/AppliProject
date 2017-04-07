@@ -3,9 +3,11 @@ package com.polytech.webservice.config;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.net.UnknownHostException;
@@ -13,8 +15,9 @@ import java.net.UnknownHostException;
 /**
  * Created by Cyprien on 06/04/2017.
  */
+
+/*@Configuration
 @EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
-@Configuration
 public class MongoConfig extends AbstractMongoConfiguration{
 
     @Override
@@ -31,4 +34,22 @@ public class MongoConfig extends AbstractMongoConfiguration{
     protected String getMappingBasePackage() {
         return "com.polytech.webservice.dataBdd";
     }
+}
+*/
+
+@Configuration
+@EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
+@ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
+public class MongoConfig {
+
+    @Bean
+    public Mongo mongo() throws Exception {
+        return new MongoClient("localhost");
+    }
+
+    @Bean
+    public MongoTemplate mongoTemplate() throws Exception {
+        return new MongoTemplate(mongo(), "test");
+    }
+
 }

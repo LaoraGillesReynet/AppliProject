@@ -13,6 +13,11 @@ public class HorairesHebdo{
 
     }
 
+    public HorairesHebdo(ArrayList<HorairesJour> horaires_jour, String horairesHebdo) {
+        this.horaires_jour = horaires_jour;
+        this.horairesHebdo = horairesHebdo;
+    }
+
     public ArrayList<HorairesJour> getHoraires_jour() {
         return horaires_jour;
     }

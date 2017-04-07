@@ -25,16 +25,10 @@ import com.polytech.webservice.dataBdd.*;
 @EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
 public class GreetingController {
 
-    private PlaceRepository placeRepo;
     @Autowired
-    public GreetingController(PlaceRepository placeRepo) {
-        super();
-        this.setPlaceRepo(placeRepo);
-    }
+    private PlaceRepository repository;
 
     private final AtomicLong counter = new AtomicLong();
-
-    private PlaceRepository repository;
 
     @RequestMapping("/greeting")
     public PlaceRequest placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
@@ -158,12 +152,5 @@ public class GreetingController {
             System.out.println(placetest.getName());
         }
         return placeRequest;
-    }
-
-    public PlaceRepository getPlaceRepo() {
-        return placeRepo;
-    }
-    public void setPlaceRepo(PlaceRepository placeRepo) {
-        this.placeRepo = placeRepo;
     }
 }

@@ -17,6 +17,15 @@ public class Comment{
 
     }
 
+    public Comment(String auteur, String language, float rating, String commentaire, int time, ArrayList<Aspect> aspectArrayList) {
+        this.auteur = auteur;
+        this.language = language;
+        this.rating = rating;
+        this.commentaire = commentaire;
+        this.time = time;
+        this.aspectArrayList = aspectArrayList;
+    }
+
     public String getAuteur() {
         return auteur;
     }

@@ -1,19 +1,23 @@
 package com.polytech.webservice.dataBdd;
 
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Cyprien on 05/04/2017.
  */
-@SuppressWarnings("serial")
-@Document(collection = "places")
+@Document
 public class Place{
 
-    @Indexed(unique=true)
+    @Id
     private String id;
 
     private String place_id;
@@ -25,6 +29,7 @@ public class Place{
     private int rating;
     private String phoneNumber;
     private String website;
+
     private HorairesHebdo horaires_hebdo;
 
     private ArrayList<Comment> comment;
@@ -34,7 +39,14 @@ public class Place{
 
     }
 
-    public Place(String place_id, String name, String address, double latitude, double longitude, String icon, ArrayList<String> types, int rating) {
+    public Place(String id, String name, ArrayList<String> types) {
+        this.id = id;
+        this.name = name;
+        this.types = types;
+    }
+
+    @PersistenceConstructor
+    public Place(final String place_id, final String name, final String address, final double latitude, final double longitude, final String icon, final ArrayList<String> types, final int rating) {
         this.place_id = place_id;
         this.name = name;
         this.address = address;

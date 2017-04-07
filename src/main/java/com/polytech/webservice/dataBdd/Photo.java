@@ -12,6 +12,12 @@ public class Photo{
 
     }
 
+    public Photo(int height, int width, String reference) {
+        this.height = height;
+        this.width = width;
+        this.reference = reference;
+    }
+
     public int getHeight() {
         return height;
     }
