@@ -1,17 +1,19 @@
 package com.polytech.webservice.dataBdd;
 
 
-import com.polytech.webservice.dataApi.PlaceValue;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
 /**
  * Created by Cyprien on 05/04/2017.
  */
-public class Place {
+@SuppressWarnings("serial")
+@Document(collection = "places")
+public class Place{
 
-    @Id
+    @Indexed(unique=true)
     private String id;
 
     private String place_id;

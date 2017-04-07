@@ -1,20 +1,23 @@
 package com.polytech.webservice.config;
 
-import com.polytech.webservice.dataBdd.Place;
-import com.polytech.webservice.dataBdd.PlaceRepository;
+import com.polytech.webservice.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  * Created by Laora on 02/04/2017.
  */
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.polytech.webservice","com.polytech.webservice.web"})
-public class Application {
+@EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
+@ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
+public class Application{
+
+    @Autowired
+    private PlaceRepository repository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

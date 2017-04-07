@@ -4,8 +4,9 @@ import com.polytech.webservice.dataApi.MeteoRequest;
 import com.polytech.webservice.dataApi.PlaceDetailRequest;
 import com.polytech.webservice.dataApi.PlaceRequest;
 import com.polytech.webservice.dataBdd.Place;
-import com.polytech.webservice.dataBdd.PlaceRepository;
+import com.polytech.webservice.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 import com.polytech.webservice.dataBdd.*;
 
@@ -22,11 +22,18 @@ import com.polytech.webservice.dataBdd.*;
  */
 
 @RestController
+@EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
 public class GreetingController {
+
+    private PlaceRepository placeRepo;
+    @Autowired
+    public GreetingController(PlaceRepository placeRepo) {
+        super();
+        this.setPlaceRepo(placeRepo);
+    }
 
     private final AtomicLong counter = new AtomicLong();
 
-    @Autowired
     private PlaceRepository repository;
 
     @RequestMapping("/greeting")
@@ -151,5 +158,12 @@ public class GreetingController {
             System.out.println(placetest.getName());
         }
         return placeRequest;
+    }
+
+    public PlaceRepository getPlaceRepo() {
+        return placeRepo;
+    }
+    public void setPlaceRepo(PlaceRepository placeRepo) {
+        this.placeRepo = placeRepo;
     }
 }
