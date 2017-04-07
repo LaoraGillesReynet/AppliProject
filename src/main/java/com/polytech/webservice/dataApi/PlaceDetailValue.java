@@ -114,14 +114,15 @@ public class PlaceDetailValue {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private class PhotoAttribute {
-        int height;
-        String photo_reference;
-        int width;
+    public class PhotoAttribute {
+        private int height;
+        private String photo_reference;
+        private int width;
 
         public PhotoAttribute(){
 
         }
+
 
         public int getHeight() {
             return height;
