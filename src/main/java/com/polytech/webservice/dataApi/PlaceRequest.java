@@ -45,7 +45,8 @@ public class PlaceRequest {
     @Override
     public String toString() {
         return "PlaceRequest{" +
-                "results=" + results +
+                "next_page_token='" + next_page_token + '\'' +
+                ", results=" + results +
                 ", status='" + status + '\'' +
                 '}';
     }
