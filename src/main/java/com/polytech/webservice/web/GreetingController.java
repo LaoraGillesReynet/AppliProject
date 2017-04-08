@@ -29,16 +29,12 @@ import com.polytech.webservice.dataBdd.*;
 @ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class GreetingController {
 
-    private int compteurGoogleRequest;
-
     @Autowired
     private PlaceRepository repository;
 
-    private final AtomicLong counter = new AtomicLong();
-
     @RequestMapping("/greeting")
     public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
-        compteurGoogleRequest = 0;
+        int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
         RestTemplate restTemplateMeteo = new RestTemplate();
@@ -62,7 +58,6 @@ public class GreetingController {
         Calendar cal = Calendar.getInstance();
         int heure = cal.get(Calendar.HOUR_OF_DAY);
         int minutes = cal.get(Calendar.MINUTE);
-
 
         //Requête API Google Places
         //Rayon et clé API
@@ -173,8 +168,9 @@ public class GreetingController {
             }
             System.out.println(placeRequest.toString());
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1500);
             }catch(InterruptedException e){
+                e.printStackTrace();
             }
         }
         //With jsonObject
@@ -201,9 +197,27 @@ public class GreetingController {
         }
         */
         // fetch all places
-        System.out.println("Places found with findAll():");
-        System.out.println("-------------------------------");
         System.out.println("nb requete api google :" + compteurGoogleRequest);
-        return repository.findAll();
+        List<Place> resultList = new ArrayList<>();
+        boolean ok_types = false;
+        for (Place placebdd : repository.findAll())
+        {
+            ok_types = false;
+            InitializerArrayTypes initializer_result = new InitializerArrayTypes();
+            initializer_result.initialize_result(heure, conditionMeteo, temperature);
+            for (String string : initializer_result.getArrayTypes()){
+                for ( String string2 : placebdd.getTypes()){
+                    if (string2.equals(string) && !ok_types){
+                        ok_types = true;
+                    }
+                }
+            }
+            if (ok_types)
+            {
+                resultList.add(placebdd);
+                System.out.println(placebdd.getName());
+            }
+        }
+        return resultList;
     }
 }
