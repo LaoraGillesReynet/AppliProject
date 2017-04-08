@@ -1,5 +1,6 @@
 package com.polytech.webservice.web;
 
+import com.mongodb.util.JSON;
 import com.polytech.webservice.dataApi.*;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import com.polytech.webservice.dataBdd.*;
 
@@ -35,7 +37,7 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public PlaceRequest placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+    public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
         compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -92,9 +94,9 @@ public class GreetingController {
             compteurGoogleRequest += 1;
             RestTemplate restTemplate = new RestTemplate();
             placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
+
             next_page_token = placeRequest.getNext_page_token();
             index_token+=1;
-            System.out.println(placeRequest);
 
 
             boolean ok = false;
@@ -201,11 +203,7 @@ public class GreetingController {
         // fetch all places
         System.out.println("Places found with findAll():");
         System.out.println("-------------------------------");
-        for (Place placetest : repository.findAll()) {
-            System.out.println(placetest.getName());
-        }
-        System.out.println(compteurGoogleRequest);
-        repository.deleteAll();
-        return placeRequest;
+        System.out.println("nb requete api google :" + compteurGoogleRequest);
+        return repository.findAll();
     }
 }
