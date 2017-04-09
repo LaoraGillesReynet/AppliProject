@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class PlaceValue {
     private Geometry geometry;
     private String name;
-    private String icon;
     private String id;
     private String place_id;
     private int rating;
@@ -32,14 +31,6 @@ public class PlaceValue {
 
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public String getId() {
@@ -87,7 +78,6 @@ public class PlaceValue {
         return "PlaceValue{" +
                 "geometry=" + geometry +
                 ", name='" + name + '\'' +
-                ", icon='" + icon + '\'' +
                 ", id='" + id + '\'' +
                 ", place_id='" + place_id + '\'' +
                 ", rating=" + rating +

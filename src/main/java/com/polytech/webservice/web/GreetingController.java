@@ -113,6 +113,7 @@ public class GreetingController {
 
                     //Création et initialisation de l'objet Place avant ajout en bdd
                     Place place = new Place();
+                    place.setPlace_id(placeRequest.getResults().get(i).getPlace_id());
                     place.setName(placeRequest.getResults().get(i).getName());
                     place.setAddress(placeDetailRequest.getResult().getFormatted_address());
                     place.setLatitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLat());
@@ -162,6 +163,12 @@ public class GreetingController {
                         }
                         place.setComment(commentArrayList);
                     }
+                    Photo photo = new Photo();
+                    photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
+                    photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
+                    photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
+                    place.setPhotoRef(photo);
+
                     repository.save(place);
                 }
                 ok = false;
@@ -199,7 +206,7 @@ public class GreetingController {
         // fetch all places
         System.out.println("nb requete api google :" + compteurGoogleRequest);
         List<Place> resultList = new ArrayList<>();
-        boolean ok_types = false;
+        boolean ok_types;
         for (Place placebdd : repository.findAll())
         {
             ok_types = false;

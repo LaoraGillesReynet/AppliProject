@@ -25,7 +25,6 @@ public class Place{
     private String address;
     private double latitude;
     private double longitude;
-    private String icon;
     private ArrayList<String> types;
     private int rating;
     private String phoneNumber;
@@ -34,7 +33,7 @@ public class Place{
     private HorairesHebdo horaires_hebdo;
 
     private ArrayList<Comment> comment;
-    private ArrayList<Photo> photoRefs;
+    private Photo photoRef;
 
     public Place(){
 
@@ -47,7 +46,7 @@ public class Place{
     }
 
     @PersistenceConstructor
-    public Place(final String place_id, final String name, final String address, final double latitude, final double longitude, final String icon, final ArrayList<String> types, final int rating) {
+    public Place(final String place_id, final String name, final String address, final double latitude, final double longitude, final ArrayList<String> types, final int rating) {
         this.place_id = place_id;
         this.name = name;
         this.address = address;
@@ -71,14 +70,6 @@ public class Place{
 
     public void setPlace_id(String place_id) {
         this.place_id = place_id;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public String getName() {
@@ -161,11 +152,11 @@ public class Place{
         this.comment = comment;
     }
 
-    public ArrayList<Photo> getPhotoRefs() {
-        return photoRefs;
+    public Photo getPhotoRef() {
+        return photoRef;
     }
 
-    public void setPhotoRefs(ArrayList<Photo> photoRefs) {
-        this.photoRefs = photoRefs;
+    public void setPhotoRef(Photo photoRef) {
+        this.photoRef = photoRef;
     }
 }
