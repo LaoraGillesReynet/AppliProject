@@ -27,7 +27,7 @@ import java.util.ArrayList;
 @ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class ResearchController {
 
-    @Autowired
+
     private PlaceRepository repository;
 
     @RequestMapping("/research")

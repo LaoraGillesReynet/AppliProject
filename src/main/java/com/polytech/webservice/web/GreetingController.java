@@ -29,7 +29,7 @@ import com.polytech.webservice.dataBdd.*;
 @ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class GreetingController {
 
-    @Autowired
+
     private PlaceRepository repository;
 
     @RequestMapping("/greeting")
