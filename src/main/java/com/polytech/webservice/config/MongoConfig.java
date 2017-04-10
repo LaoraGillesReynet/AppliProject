@@ -45,8 +45,7 @@ public class MongoConfig {
 
     @Bean
     public Mongo mongo() throws Exception {
-        MongoClientURI mongoClientURI = new MongoClientURI("mongodb://heroku_1bd6qs4g:m49l3467rhhc2qhjp8i10tsnut@ds157500.mlab.com:57500") ;
-        return new MongoClient(mongoClientURI);
+        return new MongoClient("heroku_1bd6qs4g:m49l3467rhhc2qhjp8i10tsnut@ds157500.mlab.com", 57500);
     }
 
     @Bean
