@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by Laora on 10/04/2017.
  */
 
-/*@RestController
+@RestController
 @EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
 @ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class ResearchController {
@@ -116,4 +116,3 @@ public class ResearchController {
         return placeRequest;
     }
 }
-*/

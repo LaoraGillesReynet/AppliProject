@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * Created by Laora on 02/04/2017.
  */
 
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+@SpringBootApplication(exclude = {MongoDataAutoConfiguration.class})
 @EnableMongoRepositories(basePackages = "com.polytech.webservice.repository")
 @ComponentScan(basePackages = {"com.polytech.webservice.repository","com.polytech.webservice.web", "com.polytech.webservice.dataBdd"})
 public class Application{
