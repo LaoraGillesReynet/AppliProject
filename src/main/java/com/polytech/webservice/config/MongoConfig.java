@@ -2,6 +2,7 @@ package com.polytech.webservice.config;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -44,12 +45,13 @@ public class MongoConfig {
 
     @Bean
     public Mongo mongo() throws Exception {
-        return new MongoClient("ds157500.mlab.com", 57500);
+        MongoClientURI mongoClientURI = new MongoClientURI("mongodb://laoragr:laora2403@ds157500.mlab.com:57500/heroku_1bd6qs4g") ;
+        return new MongoClient(mongoClientURI);
     }
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        return new MongoTemplate(mongo(), "heroku_stzl8xkw");
+        return new MongoTemplate(mongo(), "heroku_1bd6qs4g");
     }
 
 }
