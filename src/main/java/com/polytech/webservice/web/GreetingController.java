@@ -61,7 +61,7 @@ public class GreetingController {
 
         //Requête API Google Places
         //Rayon et clé API
-        int radius = 10000;
+        int radius = 5000;
         String key = "AIzaSyA6rPo1WPvwvDdW-53bptkeaaY2uL7Lgg8";
 
         //Initialisation des types
@@ -90,7 +90,7 @@ public class GreetingController {
             RestTemplate restTemplate = new RestTemplate();
             placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
 
-            next_page_token = placeRequest.getNext_page_token();
+
             index_token+=1;
 
 
@@ -164,21 +164,19 @@ public class GreetingController {
                         place.setComment(commentArrayList);
                     }
                     Photo photo = new Photo();
-                    photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
-                    photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
-                    photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
-                    place.setPhotoRef(photo);
+                    if (placeDetailRequest.getResult().getPhotos() != null) {
+                        photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
+                        photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
+                        photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
+                        place.setPhotoRef(photo);
+                    }
 
                     repository.save(place);
                 }
                 ok = false;
             }
             System.out.println(placeRequest.toString());
-            try {
-                Thread.sleep(1500);
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
+            next_page_token = placeRequest.getNext_page_token();
         }
         //With jsonObject
         /*try {

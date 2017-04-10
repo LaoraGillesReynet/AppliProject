@@ -123,12 +123,6 @@ public class PlaceDetailValue {
 
         }
 
-        public PhotoAttribute(int height, String photo_reference, int width) {
-            this.height = height;
-            this.photo_reference = photo_reference;
-            this.width = width;
-        }
-
         public int getHeight() {
             return height;
         }

@@ -44,12 +44,12 @@ public class MongoConfig {
 
     @Bean
     public Mongo mongo() throws Exception {
-        return new MongoClient("localhost");
+        return new MongoClient("ds157500.mlab.com", 57500);
     }
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        return new MongoTemplate(mongo(), "test");
+        return new MongoTemplate(mongo(), "heroku_stzl8xkw");
     }
 
 }
