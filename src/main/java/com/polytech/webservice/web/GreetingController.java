@@ -223,7 +223,7 @@ public class GreetingController {
             for (String string : initializer_result.getArrayTypes()){
                 for ( String string2 : placebdd.getTypes()){
                     if (string2.equals(string) && !ok_types){
-                        if(dist <= 5.0){
+                        if(dist <= 7.0){
                             ok_types = true;
                         }
                     }
