@@ -4,6 +4,7 @@ import com.polytech.webservice.dataApi.*;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
 import com.polytech.webservice.utils.Distance;
+import com.polytech.webservice.utils.DistanceCalculator;
 import com.polytech.webservice.utils.InitializerArrayTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -212,8 +213,9 @@ public class GreetingController {
         {
             ok_types = false;
 
-            Distance distance = new Distance();
-            dist = distance.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude());
+            DistanceCalculator distanceCalculator = new DistanceCalculator();
+
+            dist = distanceCalculator.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude(), "K");
             System.out.println(latitude+" "+longitude+" "+placebdd.getLatitude()+" "+placebdd.getLongitude());
             System.out.println("DDDDDDDDDdistance : "+dist);
             InitializerArrayTypes initializer_result = new InitializerArrayTypes();
