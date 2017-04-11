@@ -7,6 +7,7 @@ import com.polytech.webservice.repository.PlaceRepository;
 import com.polytech.webservice.utils.InitializerArrayTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -205,7 +206,7 @@ public class GreetingController {
         System.out.println("nb requete api google :" + compteurGoogleRequest);
         List<Place> resultList = new ArrayList<>();
         boolean ok_types;
-        for (Place placebdd : repository.findAll())
+        for (Place placebdd : repository.findSortByNbComment(new Sort(Sort.Direction.ASC, "comment")))
         {
             ok_types = false;
             InitializerArrayTypes initializer_result = new InitializerArrayTypes();

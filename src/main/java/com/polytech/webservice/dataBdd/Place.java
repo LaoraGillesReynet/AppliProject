@@ -18,9 +18,8 @@ import java.util.ArrayList;
 public class Place{
 
     @Id
-    private String id;
-
     private String place_id;
+
     private String name;
     private String address;
     private double latitude;
@@ -39,8 +38,8 @@ public class Place{
 
     }
 
-    public Place(String id, String name, ArrayList<String> types) {
-        this.id = id;
+    public Place(String place_id, String name, ArrayList<String> types) {
+        this.place_id = place_id;
         this.name = name;
         this.types = types;
     }
@@ -54,14 +53,6 @@ public class Place{
         this.longitude = longitude;
         this.types = types;
         this.rating = rating;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPlace_id() {
