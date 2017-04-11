@@ -213,6 +213,7 @@ public class GreetingController {
             ok_types = false;
 
             distance = Distance.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude());
+            System.out.println("DDDDDDDDDdistance : "+distance);
             InitializerArrayTypes initializer_result = new InitializerArrayTypes();
             initializer_result.initialize_result(heure, conditionMeteo, temperature);
             for (String string : initializer_result.getArrayTypes()){
