@@ -40,8 +40,8 @@ public class Place{
 
     }
 
-    public Place(String place_id, String name, ArrayList<String> types) {
-        this.place_id = place_id;
+    public Place(String id, String name, ArrayList<String> types) {
+        this.id = id;
         this.name = name;
         this.types = types;
     }
