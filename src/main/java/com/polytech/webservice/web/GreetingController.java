@@ -1,13 +1,12 @@
 package com.polytech.webservice.web;
 
-import com.mongodb.util.JSON;
 import com.polytech.webservice.dataApi.*;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
+import com.polytech.webservice.utils.Distance;
 import com.polytech.webservice.utils.InitializerArrayTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import com.polytech.webservice.dataBdd.*;
 
 /**
@@ -202,19 +200,27 @@ public class GreetingController {
             ex.printStackTrace();
         }
         */
-        // fetch all places
+
         System.out.println("nb requete api google :" + compteurGoogleRequest);
-        List<Place> resultList = new ArrayList<>();
+
+        // fetch all places
+
         boolean ok_types;
-        for (Place placebdd : repository.findSortByNbComment(new Sort(Sort.Direction.ASC, "comment")))
+        double distance = 0;
+        List<Place> resultList = new ArrayList<>();
+        for (Place placebdd : repository.findAll())
         {
             ok_types = false;
+
+            distance = Distance.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude());
             InitializerArrayTypes initializer_result = new InitializerArrayTypes();
             initializer_result.initialize_result(heure, conditionMeteo, temperature);
             for (String string : initializer_result.getArrayTypes()){
                 for ( String string2 : placebdd.getTypes()){
                     if (string2.equals(string) && !ok_types){
-                        ok_types = true;
+                        if(distance <= 5.0){
+                            ok_types = true;
+                        }
                     }
                 }
             }

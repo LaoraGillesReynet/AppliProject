@@ -18,6 +18,8 @@ import java.util.ArrayList;
 public class Place{
 
     @Id
+    private String id;
+
     private String place_id;
 
     private String name;
@@ -42,6 +44,14 @@ public class Place{
         this.place_id = place_id;
         this.name = name;
         this.types = types;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @PersistenceConstructor

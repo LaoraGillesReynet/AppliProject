@@ -16,8 +16,5 @@ import java.util.List;
  */
 @Repository
 public interface PlaceRepository extends MongoRepository<Place, String> {
-    List<Place> findById(@Param("place_id") String place_id);
 
-    @Query("{ state:'ACTIVE' }")
-    List<Place>  findSortByNbComment(Sort sort);
 }
