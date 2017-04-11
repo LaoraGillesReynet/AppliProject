@@ -3,7 +3,6 @@ package com.polytech.webservice.web;
 import com.polytech.webservice.dataApi.*;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
-import com.polytech.webservice.utils.Distance;
 import com.polytech.webservice.utils.DistanceCalculator;
 import com.polytech.webservice.utils.InitializerArrayTypes;
 import org.springframework.beans.factory.annotation.Autowired;
