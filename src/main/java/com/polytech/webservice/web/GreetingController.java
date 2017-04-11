@@ -206,20 +206,21 @@ public class GreetingController {
         // fetch all places
 
         boolean ok_types;
-        double distance = 0;
+        double dist = 0;
         List<Place> resultList = new ArrayList<>();
         for (Place placebdd : repository.findAll())
         {
             ok_types = false;
 
-            distance = Distance.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude());
+            Distance distance = new Distance();
+            dist = distance.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude());
             System.out.println("DDDDDDDDDdistance : "+distance);
             InitializerArrayTypes initializer_result = new InitializerArrayTypes();
             initializer_result.initialize_result(heure, conditionMeteo, temperature);
             for (String string : initializer_result.getArrayTypes()){
                 for ( String string2 : placebdd.getTypes()){
                     if (string2.equals(string) && !ok_types){
-                        if(distance <= 5.0){
+                        if(dist <= 5.0){
                             ok_types = true;
                         }
                     }

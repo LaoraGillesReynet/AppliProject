@@ -4,18 +4,34 @@ package com.polytech.webservice.utils;
  * Created by Cyprien on 11/04/2017.
  */
 public class Distance {
-    public static double distance(double lat1, double lat2, double lon1,
+    public Distance(){
+
+    }
+    public double distance(double lat1, double lat2, double lon1,
                                   double lon2) {
 
-        final int R = 6371; // Radius of the earth
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344;
 
-        Double latDistance = Math.toRadians(lat2 - lat1);
-        Double lonDistance = Math.toRadians(lon2 - lon1);
-        Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c ; // convert to kmeters
-        return Math.sqrt(distance);
+        return dist;
     }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts decimal degrees to radians             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts radians to decimal degrees             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
 }
