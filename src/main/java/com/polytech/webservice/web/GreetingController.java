@@ -30,7 +30,7 @@ public class GreetingController {
     private PlaceRepository repository;
 
     @RequestMapping("/greeting")
-    public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+    public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", required = false) String sort) {
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -157,7 +157,9 @@ public class GreetingController {
                                     aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
                                     aspectArrayList.add(aspect);
                                 }
+                                comment.setAspectArrayList(aspectArrayList);
                             }
+                            commentArrayList.add(comment);
                         }
                         place.setComment(commentArrayList);
                     }
@@ -232,40 +234,49 @@ public class GreetingController {
                 System.out.println(placebdd.getName());
             }
         }
-        Comparator<Place> comparator = new Comparator<Place>() {
-            @Override
-            public int compare(Place o1, Place o2) {
-                DistanceCalculator distanceCalculator = new DistanceCalculator();
-                double latitude1 = o1.getLatitude();
-                double longitude1 = o1.getLongitude();
-                double latitude2 = o2.getLatitude();
-                double longitude2 = o2.getLongitude();
-                double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
-                double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
 
-                if (distance1 <= distance2){
-                    return -1;
-                }
-                else{
-                    return 1;
-                }
-            }
-        };
-        /*
-        Comparator<Place> comparator = new Comparator<Place>() {
-            @Override
-            public int compare(Place o1, Place o2) {
-                int nbComment1 = o1.getComment().size();
-                int nbComment2 = o2.getComment().size();
+        Comparator<Place> comparator;
+        switch(sort){
+            case "dist":
+                comparator = new Comparator<Place>() {
+                    @Override
+                    public int compare(Place o1, Place o2) {
+                        DistanceCalculator distanceCalculator = new DistanceCalculator();
+                        double latitude1 = o1.getLatitude();
+                        double longitude1 = o1.getLongitude();
+                        double latitude2 = o2.getLatitude();
+                        double longitude2 = o2.getLongitude();
+                        double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
+                        double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
 
-                if (nbComment1 <= nbComment2){
-                    return 1;
-                }
-                else
-                    return -1;
-            }
-        };*/
-        resultList.sort(comparator);
+                        if (distance1 <= distance2){
+                            return -1;
+                        }
+                        else{
+                            return 1;
+                        }
+                    }
+                };
+                resultList.sort(comparator);
+                break;
+
+            case "popu":
+                comparator = new Comparator<Place>() {
+                    @Override
+                    public int compare(Place o1, Place o2) {
+                        int nbComment1 = o1.getComment().size();
+                        int nbComment2 = o2.getComment().size();
+
+                        if (nbComment1 <= nbComment2){
+                            return 1;
+                        }
+                        else
+                            return -1;
+                    }
+                };
+                resultList.sort(comparator);
+                break;
+        }
         return resultList;
     }
 }
