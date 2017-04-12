@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class InitializerArrayTypes {
     private ArrayList<String> arrayTypes;
-
     public InitializerArrayTypes() {
         arrayTypes = new ArrayList<>();
     }
@@ -41,7 +40,7 @@ public class InitializerArrayTypes {
         arrayTypes.add("zoo");
     }
 
-    public void initialize_result(int heure, String condition, int temperature){
+    public void initialize_result(int heure, String condition, int temperature, ArrayList<String> TypesPlace){
         if (heure >= 0 && heure < 4){
             arrayTypes.add("casino");
             arrayTypes.add("night_club");

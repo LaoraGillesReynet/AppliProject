@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
 import com.polytech.webservice.dataBdd.*;
 
 /**
@@ -33,6 +31,7 @@ public class GreetingController {
 
     @RequestMapping("/greeting")
     public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
+        repository.deleteAll();
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -117,6 +116,7 @@ public class GreetingController {
                     place.setAddress(placeDetailRequest.getResult().getFormatted_address());
                     place.setLatitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLat());
                     place.setLongitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLng());
+
                     place.setTypes(placeRequest.getResults().get(i).getTypes());
                     place.setRating(placeRequest.getResults().get(i).getRating());
                     place.setPhoneNumber(placeDetailRequest.getResult().getFormatted_phone_number());
@@ -218,7 +218,7 @@ public class GreetingController {
             System.out.println(latitude+" "+longitude+" "+placebdd.getLatitude()+" "+placebdd.getLongitude());
             System.out.println("DDDDDDDDDdistance : "+dist);
             InitializerArrayTypes initializer_result = new InitializerArrayTypes();
-            initializer_result.initialize_result(heure, conditionMeteo, temperature);
+            initializer_result.initialize_result(heure, conditionMeteo, temperature, placebdd.getTypes());
             for (String string : initializer_result.getArrayTypes()){
                 for ( String string2 : placebdd.getTypes()){
                     if (string2.equals(string) && !ok_types){
@@ -234,6 +234,26 @@ public class GreetingController {
                 System.out.println(placebdd.getName());
             }
         }
+        Comparator<Place> comparator = new Comparator<Place>() {
+            @Override
+            public int compare(Place o1, Place o2) {
+                DistanceCalculator distanceCalculator = new DistanceCalculator();
+                double latitude1 = o1.getLatitude();
+                double longitude1 = o1.getLongitude();
+                double latitude2 = o2.getLatitude();
+                double longitude2 = o2.getLongitude();
+                double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
+                double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
+
+                if (distance1 <= distance2){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            }
+        };
+        resultList.sort(comparator);
         return resultList;
     }
 }

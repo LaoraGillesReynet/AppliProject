@@ -26,6 +26,7 @@ public class Place{
     private String address;
     private double latitude;
     private double longitude;
+
     private ArrayList<String> types;
     private int rating;
     private String phoneNumber;
@@ -55,7 +56,7 @@ public class Place{
     }
 
     @PersistenceConstructor
-    public Place(final String id, final String place_id, final String name, final String address, final double latitude, final double longitude, final ArrayList<String> types, final int rating) {
+    public Place(final String id, final String place_id, final String name, final String address, final double latitude, final double longitude, final double distance, final ArrayList<String> types, final int rating) {
         this.id = id;
         this.place_id = place_id;
         this.name = name;
