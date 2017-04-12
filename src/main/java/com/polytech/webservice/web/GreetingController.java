@@ -232,7 +232,7 @@ public class GreetingController {
                 System.out.println(placebdd.getName());
             }
         }
-        /*Comparator<Place> comparator = new Comparator<Place>() {
+        Comparator<Place> comparator = new Comparator<Place>() {
             @Override
             public int compare(Place o1, Place o2) {
                 DistanceCalculator distanceCalculator = new DistanceCalculator();
@@ -250,7 +250,8 @@ public class GreetingController {
                     return 1;
                 }
             }
-        }; */
+        };
+        /*
         Comparator<Place> comparator = new Comparator<Place>() {
             @Override
             public int compare(Place o1, Place o2) {
@@ -263,7 +264,7 @@ public class GreetingController {
                 else
                     return -1;
             }
-        };
+        };*/
         resultList.sort(comparator);
         return resultList;
     }
