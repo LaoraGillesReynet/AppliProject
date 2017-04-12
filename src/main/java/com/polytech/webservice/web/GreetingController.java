@@ -209,12 +209,12 @@ public class GreetingController {
         List<Place> resultList = new ArrayList<>();
         InitializerArrayTypes initializer_result = new InitializerArrayTypes();
         initializer_result.initialize_result(heure, conditionMeteo, temperature);
+        System.out.println(initializer_result.getArrayTypes());
         for (Place placebdd : repository.findAll())
         {
             ok_types = false;
 
             DistanceCalculator distanceCalculator = new DistanceCalculator();
-
             dist = distanceCalculator.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude(), "K");
             System.out.println(latitude+" "+longitude+" "+placebdd.getLatitude()+" "+placebdd.getLongitude());
             for (String string : initializer_result.getArrayTypes()){

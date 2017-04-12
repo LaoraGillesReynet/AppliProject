@@ -25,6 +25,7 @@ public class InitializerArrayTypes {
 
     public InitializerArrayTypes() {
         arrayTypes = new ArrayList<>();
+
         //"museum|art_gallery|library|university|book_store|school|"
         arrayCulture = new ArrayList<>();
         arrayCulture.add("museum");
