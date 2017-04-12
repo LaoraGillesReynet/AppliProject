@@ -246,10 +246,10 @@ public class GreetingController {
                 double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
 
                 if (distance1 <= distance2){
-                    return 1;
+                    return -1;
                 }
                 else{
-                    return -1;
+                    return 1;
                 }
             }
         };
