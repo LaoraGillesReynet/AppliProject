@@ -17,10 +17,14 @@ public class InitializerArrayTypes {
     private ArrayList<String> arrayShop;
     private ArrayList<String> arraySante;
 
+    private ArrayList<String> arrayConditionSoleil;
+    private ArrayList<String> arrayConditionNuage;
+    private ArrayList<String> arrayConditionPluie;
+    private ArrayList<String> arrayConditionOrage;
+    private ArrayList<String> arrayConditionNeige;
+
     public InitializerArrayTypes() {
-
         arrayTypes = new ArrayList<>();
-
         //"museum|art_gallery|library|university|book_store|school|"
         arrayCulture = new ArrayList<>();
         arrayCulture.add("museum");
@@ -69,13 +73,25 @@ public class InitializerArrayTypes {
 
         //"|store|shoe_store|electronics_store|convenience_store|grocery_or_supermarket|home_goods_store|clothing_store|"
         arrayShop = new ArrayList<>();
-        arrayShop.add("");
+        arrayShop.add("store");
+        arrayShop.add("shoe_store");
+        arrayShop.add("electronics_store");
+        arrayShop.add("convenience_store");
+        arrayShop.add("grocery_or_supermarket");
+        arrayShop.add("home_goods_store");
+        arrayShop.add("clothing_store");
 
         //"|spa|hair_care|beauty_salon|health|dentist|doctor|hospital|pharmacy|veterinary_care|"
         arraySante = new ArrayList<>();
-        arraySante.add("");
-
-
+        arraySante.add("spa");
+        arraySante.add("hair_care");
+        arraySante.add("beauty_salon");
+        arraySante.add("health");
+        arraySante.add("dentist");
+        arraySante.add("doctor");
+        arraySante.add("hospital");
+        arraySante.add("pharmacy");
+        arraySante.add("veterinary_care");
     }
 
     public void initialize(){
@@ -119,6 +135,51 @@ public class InitializerArrayTypes {
      */
 
     public void initialize_result(int heure, String condition, int temperature){
+        arrayConditionSoleil = new ArrayList<>();
+        arrayConditionSoleil.add("Ensoleillé");
+        arrayConditionSoleil.add("Nuit claire");
+        arrayConditionNuage.add("Nuit bien dégagée");
+        arrayConditionSoleil.add("Nuit claire et stratus");
+
+        arrayConditionNuage = new ArrayList<>();
+        arrayConditionNuage.add("Ciel voilé");
+        arrayConditionNuage.add("Nuit légèrement voilée");
+        arrayConditionNuage.add("Faible passage nuageux");
+        arrayConditionNuage.add("Brouillard");
+        arrayConditionNuage.add("Stratus");
+        arrayConditionNuage.add("Stratus se dissipant");
+        arrayConditionNuage.add("Eclaircies");
+        arrayConditionNuage.add("Nuit nuageuse");
+        arrayConditionNuage.add("Faiblement nuageux");
+        arrayConditionNuage.add("Fortement nuageux");
+        arrayConditionNuage.add("Developpement nuageux");
+        arrayConditionNuage.add("Nuit avec developpement nuageux");
+
+        arrayConditionPluie = new ArrayList<>();
+        arrayConditionPluie.add("Averses de pluie faible");
+        arrayConditionPluie.add("Nuit avec averses");
+        arrayConditionPluie.add("Averses de pluie modérée");
+        arrayConditionPluie.add("Averses de pluie forte");
+        arrayConditionPluie.add("Couvert avec averses");
+        arrayConditionPluie.add("Pluie faible");
+        arrayConditionPluie.add("Pluie forte");
+        arrayConditionPluie.add("Pluie modérée");
+
+        arrayConditionOrage = new ArrayList<>();
+        arrayConditionOrage.add("Faiblement orageux");
+        arrayConditionOrage.add("Nuit faiblement orageuse");
+        arrayConditionOrage.add("Orage modéré");
+        arrayConditionOrage.add("Fortement orageux");
+
+        arrayConditionNeige = new ArrayList<>();
+        arrayConditionNeige.add("Averse de neige faible");
+        arrayConditionNeige.add("Nuit avec averse de neige faible");
+        arrayConditionNeige.add("Neige faible");
+        arrayConditionNeige.add("Neige modérée");
+        arrayConditionNeige.add("Neige forte");
+        arrayConditionNeige.add("Pluie et neige mêlée faible");
+        arrayConditionNeige.add("Pluie et neige mêlée modérée");
+        arrayConditionNeige.add("Pluie et neige mêlée forte");
 
         if (heure >= 0 && heure < 4){
             arrayTypes.add("casino");
@@ -140,7 +201,7 @@ public class InitializerArrayTypes {
             }
         }
         else if(heure >= 11 && heure < 14 || heure >= 19 && heure < 21){
-            if (condition.equals("Ensoleillé")){
+            if (arrayConditionSoleil.contains(condition)){
                 arrayTypes.add("food");
                 arrayTypes.add("restaurant");
             }
