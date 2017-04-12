@@ -40,7 +40,19 @@ public class InitializerArrayTypes {
         arrayTypes.add("zoo");
     }
 
-    public void initialize_result(int heure, String condition, int temperature, ArrayList<String> TypesPlace){
+
+    /*
+        Condition de temps possibles:
+        Ensoleillé, Nuit claire, Ciel voilé, Nuit légèrement voilée, Faible passages nuageux, Nuit bien dégagée
+        brouillard, stratus, stratus se dissipant, nuit claire et stratus, éclaircies, nuit nuageuse, Faiblement nuageux, Fortement nuageux,
+        Averses de pluie faible, Nuit avec averses, Averses de pluie modérée, Averses de pluie forte, Couvert avec averses, Pluie faible,
+        Pluie forte, Pluie modérée, Developpement nuageux, Nuit avec developpement nuageux, Faiblement orageux, Nuit faiblement orageuse,
+        Orage modéré, Fortement orageux, Averse de neige faible, Nuit avec averse de neige faible, Neige faible, Neige modérée, Neige forte,
+        Pluie et neige mêlée faible, Pluie et neige mêlée modérée, Pluie et neige mêlée forte
+     */
+
+    public void initialize_result(int heure, String condition, int temperature){
+
         if (heure >= 0 && heure < 4){
             arrayTypes.add("casino");
             arrayTypes.add("night_club");

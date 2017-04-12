@@ -208,6 +208,8 @@ public class GreetingController {
         boolean ok_types;
         double dist = 0;
         List<Place> resultList = new ArrayList<>();
+        InitializerArrayTypes initializer_result = new InitializerArrayTypes();
+        initializer_result.initialize_result(heure, conditionMeteo, temperature);
         for (Place placebdd : repository.findAll())
         {
             ok_types = false;
@@ -216,9 +218,6 @@ public class GreetingController {
 
             dist = distanceCalculator.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude(), "K");
             System.out.println(latitude+" "+longitude+" "+placebdd.getLatitude()+" "+placebdd.getLongitude());
-            System.out.println("DDDDDDDDDdistance : "+dist);
-            InitializerArrayTypes initializer_result = new InitializerArrayTypes();
-            initializer_result.initialize_result(heure, conditionMeteo, temperature, placebdd.getTypes());
             for (String string : initializer_result.getArrayTypes()){
                 for ( String string2 : placebdd.getTypes()){
                     if (string2.equals(string) && !ok_types){
@@ -234,7 +233,7 @@ public class GreetingController {
                 System.out.println(placebdd.getName());
             }
         }
-        Comparator<Place> comparator = new Comparator<Place>() {
+        /*Comparator<Place> comparator = new Comparator<Place>() {
             @Override
             public int compare(Place o1, Place o2) {
                 DistanceCalculator distanceCalculator = new DistanceCalculator();
@@ -251,6 +250,19 @@ public class GreetingController {
                 else{
                     return 1;
                 }
+            }
+        };*/
+        Comparator<Place> comparator = new Comparator<Place>() {
+            @Override
+            public int compare(Place o1, Place o2) {
+                int nbComment1 = o1.getComment().size();
+                int nbComment2 = o2.getComment().size();
+
+                if (nbComment1 <= nbComment2){
+                    return 1;
+                }
+                else
+                    return -1;
             }
         };
         resultList.sort(comparator);
