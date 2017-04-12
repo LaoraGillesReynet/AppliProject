@@ -59,7 +59,7 @@ public class GreetingController {
         //Requête API Google Places
         //Rayon et clé API
         int radius = 5000;
-        String key = "AIzaSyDx6zH-3S7w8soSelA2sYFNk2n-GvnoTO8";
+        String key = "AIzaSyA8dc_npRU5uwQdlpV1QkOdDYUQtlHGEj8";
 
         //Initialisation des types
         String typeString = "";
