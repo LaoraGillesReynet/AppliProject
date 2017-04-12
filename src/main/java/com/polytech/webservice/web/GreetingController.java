@@ -31,7 +31,6 @@ public class GreetingController {
 
     @RequestMapping("/greeting")
     public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude", defaultValue="0") double longitude) {
-        repository.deleteAll();
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -251,7 +250,7 @@ public class GreetingController {
                     return 1;
                 }
             }
-        };*/
+        }; */
         Comparator<Place> comparator = new Comparator<Place>() {
             @Override
             public int compare(Place o1, Place o2) {
