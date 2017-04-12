@@ -30,7 +30,7 @@ public class GreetingController {
     private PlaceRepository repository;
 
     @RequestMapping("/greeting")
-    public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", required = false) String sort) {
+    public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort) {
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -275,6 +275,9 @@ public class GreetingController {
                     }
                 };
                 resultList.sort(comparator);
+                break;
+
+            case "default":
                 break;
         }
         return resultList;
