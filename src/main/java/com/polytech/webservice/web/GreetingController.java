@@ -232,6 +232,10 @@ public class GreetingController {
             {
                 resultList.add(placebdd);
                 System.out.println(placebdd.getName());
+                if (placebdd.getComment() != null)
+                {
+                    System.out.println(placebdd.getComment().size());
+                }
             }
         }
 
