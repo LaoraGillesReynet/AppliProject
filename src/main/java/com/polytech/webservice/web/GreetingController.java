@@ -264,35 +264,6 @@ public class GreetingController {
                 resultList.sort(comparator);
                 break;
 
-            case "popu":
-                comparator = new Comparator<Place>() {
-                    @Override
-                    public int compare(Place o1, Place o2) {
-                        if (o1.getComment() != null)
-                        {
-                            int nbComment1 = o1.getComment().size();
-                            if (o2.getComment() != null)
-                            {
-                                int nbComment2 = o2.getComment().size();
-                                if (nbComment1 <= nbComment2){
-                                    return 1;
-                                }
-                                else
-                                    return -1;
-                            }
-                            else
-                                return -1;
-                        }
-                        else if (o2.getComment() != null)
-                            return 1;
-                        else
-                            return -1;
-
-                    }
-                };
-                resultList.sort(comparator);
-                break;
-
             case "default":
                 break;
         }
