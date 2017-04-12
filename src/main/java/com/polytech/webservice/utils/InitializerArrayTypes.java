@@ -139,7 +139,7 @@ public class InitializerArrayTypes {
         arrayConditionSoleil = new ArrayList<>();
         arrayConditionSoleil.add("Ensoleillé");
         arrayConditionSoleil.add("Nuit claire");
-        arrayConditionNuage.add("Nuit bien dégagée");
+        arrayConditionSoleil.add("Nuit bien dégagée");
         arrayConditionSoleil.add("Nuit claire et stratus");
 
         arrayConditionNuage = new ArrayList<>();
