@@ -7,8 +7,75 @@ import java.util.ArrayList;
  */
 public class InitializerArrayTypes {
     private ArrayList<String> arrayTypes;
+
+    private ArrayList<String> arrayCulture;
+    private ArrayList<String> arrayDab;
+    private ArrayList<String> arrayTransport;
+    private ArrayList<String> arraySport;
+    private ArrayList<String> arrayResto;
+    private ArrayList<String> arrayLoisirs;
+    private ArrayList<String> arrayShop;
+    private ArrayList<String> arraySante;
+
     public InitializerArrayTypes() {
+
         arrayTypes = new ArrayList<>();
+
+        //"museum|art_gallery|library|university|book_store|school|"
+        arrayCulture = new ArrayList<>();
+        arrayCulture.add("museum");
+        arrayCulture.add("art_gallery");
+        arrayCulture.add("library");
+        arrayCulture.add("university");
+        arrayCulture.add("book_store");
+        arrayCulture.add("school");
+
+        arrayDab = new ArrayList<>();
+        arrayDab.add("bank");
+        arrayDab.add("atm");
+
+        //"airport|bus_station|parking|subway_station|taxi_stand|train_station|gas_station|"
+        arrayTransport = new ArrayList<>();
+        arrayTransport.add("airport");
+        arrayTransport.add("bus_station");
+        arrayTransport.add("parking");
+        arrayTransport.add("subway_station");
+        arrayTransport.add("taxi_stand");
+        arrayTransport.add("train_station");
+        arrayTransport.add("gas_station");
+
+        //"|gym|stadium|"
+        arraySport = new ArrayList<>();
+        arraySport.add("gym");
+        arraySport.add("stadium");
+
+        //"|restaurant|bakery|bar|cafe|food|"
+        arrayResto= new ArrayList<>();
+        arrayResto.add("restaurant");
+        arrayResto.add("bakery");
+        arrayResto.add("bar");
+        arrayResto.add("cafe");
+        arrayResto.add("food");
+
+        //"amusement_park|casino|aquarium|movie_theater|zoo|bowling_alley|night_club|"
+        arrayLoisirs = new ArrayList<>();
+        arrayLoisirs.add("amusement_park");
+        arrayLoisirs.add("casino");
+        arrayLoisirs.add("aquarium");
+        arrayLoisirs.add("movie_theater");
+        arrayLoisirs.add("zoo");
+        arrayLoisirs.add("bowling_alley");
+        arrayLoisirs.add("night_club");
+
+        //"|store|shoe_store|electronics_store|convenience_store|grocery_or_supermarket|home_goods_store|clothing_store|"
+        arrayShop = new ArrayList<>();
+        arrayShop.add("");
+
+        //"|spa|hair_care|beauty_salon|health|dentist|doctor|hospital|pharmacy|veterinary_care|"
+        arraySante = new ArrayList<>();
+        arraySante.add("");
+
+
     }
 
     public void initialize(){
