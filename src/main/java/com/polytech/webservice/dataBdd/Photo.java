@@ -1,5 +1,9 @@
 package com.polytech.webservice.dataBdd;
 
+import org.springframework.data.repository.query.Param;
+
+import java.io.InputStream;
+
 /**
  * Created by Cyprien on 05/04/2017.
  */

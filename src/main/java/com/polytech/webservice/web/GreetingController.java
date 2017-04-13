@@ -17,7 +17,7 @@ import java.util.*;
 
 import com.polytech.webservice.dataBdd.*;
 
-/**
+/*
  * Created by Laora on 02/04/2017.
  */
 
@@ -30,7 +30,7 @@ public class GreetingController {
     private PlaceRepository repository;
 
     @RequestMapping("/greeting")
-    public List<Place> placesRequest(@RequestParam(value="latitude", defaultValue="0") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort) {
+    public List<Place> placesRequest(@RequestParam(value="latitude") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort, @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref) {
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -53,25 +53,34 @@ public class GreetingController {
 
         //Heure grâce à Calendar
         Calendar cal = Calendar.getInstance();
-        int heure = cal.get(Calendar.HOUR_OF_DAY)+2;
+        int heure = cal.get(Calendar.HOUR_OF_DAY);
         int minutes = cal.get(Calendar.MINUTE);
+        System.out.println(heure+"h "+minutes+"min ");
 
         //Requête API Google Places
         //Rayon et clé API
-        int radius = 5000;
+        int radius = 10000;
         String key = "AIzaSyA8dc_npRU5uwQdlpV1QkOdDYUQtlHGEj8";
 
         //Initialisation des types
         String typeString = "";
         InitializerArrayTypes initializer = new InitializerArrayTypes();
-        initializer.initialize();
-        Iterator<String> iterator = initializer.getArrayTypes().iterator();
-        while (iterator.hasNext()) {
-            String current = iterator.next();
-            typeString += '|' + current;
+        if (search.equals("null"))
+        {
+            if (pref.equals("null"))
+            {
+                initializer.initialize(heure, conditionMeteo, temperature);
+                System.out.println(initializer.getArrayTypes());
+            }
+            else
+                initializer.initialize_pref(pref);
+
+            for (String current : initializer.getArrayTypes()) {
+                typeString += '|' + current;
+            }
+            typeString = typeString.substring(1);
+            System.out.println("Types: " + typeString);
         }
-        typeString = typeString.substring(1);
-        System.out.println("Types: " + typeString);
 
         String next_page_token = "";
         String placeString = "";
@@ -79,8 +88,18 @@ public class GreetingController {
         PlaceRequest placeRequest = new PlaceRequest();
         while (next_page_token != null) {
             //String de l'url avec paramètre
-            if (index_token == 0)
-                placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+            if (index_token == 0) {
+                if (search.equals("null") && pref.equals("null"))
+                {
+                    placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                }
+                else if(pref.equals("null")){
+                    placeString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + search + "&key=" + key;
+                }
+                else if(search.equals("null")){
+                    placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                }
+            }
             else
                 placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key + "&pagetoken=" + next_page_token;
             compteurGoogleRequest += 1;
@@ -89,8 +108,6 @@ public class GreetingController {
 
 
             index_token+=1;
-
-
             boolean ok = false;
             for (int i = 0; i < placeRequest.getResults().size(); i++) {
                 for (Place place2 : repository.findAll()) {
@@ -138,7 +155,6 @@ public class GreetingController {
                         horairesHebdo.setHoraires_jour(horairesJours);
                         place.setHoraires_hebdo(horairesHebdo);
                     }
-
                     if (placeDetailRequest.getResult().getReviews() != null) {
                         ArrayList<Comment> commentArrayList = new ArrayList<>();
                         for (int k = 0; k < placeDetailRequest.getResult().getReviews().size(); k++) {
@@ -170,7 +186,6 @@ public class GreetingController {
                         photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
                         place.setPhotoRef(photo);
                     }
-
                     repository.save(place);
                 }
                 ok = false;
@@ -206,20 +221,16 @@ public class GreetingController {
 
         // fetch all places
 
+
         boolean ok_types;
         double dist = 0;
         List<Place> resultList = new ArrayList<>();
-        InitializerArrayTypes initializer_result = new InitializerArrayTypes();
-        initializer_result.initialize_result(heure, conditionMeteo, temperature);
-        System.out.println(initializer_result.getArrayTypes());
         for (Place placebdd : repository.findAll())
         {
             ok_types = false;
-
             DistanceCalculator distanceCalculator = new DistanceCalculator();
             dist = distanceCalculator.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude(), "K");
-            System.out.println(latitude+" "+longitude+" "+placebdd.getLatitude()+" "+placebdd.getLongitude());
-            for (String string : initializer_result.getArrayTypes()){
+            for (String string : initializer.getArrayTypes()){
                 for ( String string2 : placebdd.getTypes()){
                     if (string2.equals(string) && !ok_types){
                         if(dist <= 7.0){
@@ -231,11 +242,6 @@ public class GreetingController {
             if (ok_types)
             {
                 resultList.add(placebdd);
-                System.out.println(placebdd.getName());
-                if (placebdd.getComment() != null)
-                {
-                    System.out.println(placebdd.getComment().size());
-                }
             }
         }
 

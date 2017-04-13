@@ -8,15 +8,6 @@ import java.util.ArrayList;
 public class InitializerArrayTypes {
     private ArrayList<String> arrayTypes;
 
-    private ArrayList<String> arrayCulture;
-    private ArrayList<String> arrayDab;
-    private ArrayList<String> arrayTransport;
-    private ArrayList<String> arraySport;
-    private ArrayList<String> arrayResto;
-    private ArrayList<String> arrayLoisirs;
-    private ArrayList<String> arrayShop;
-    private ArrayList<String> arraySante;
-
     private ArrayList<String> arrayConditionSoleil;
     private ArrayList<String> arrayConditionNuage;
     private ArrayList<String> arrayConditionPluie;
@@ -25,131 +16,23 @@ public class InitializerArrayTypes {
 
     public InitializerArrayTypes() {
         arrayTypes = new ArrayList<>();
-
-        //"museum|art_gallery|library|university|book_store|school|"
-        arrayCulture = new ArrayList<>();
-        arrayCulture.add("museum");
-        arrayCulture.add("art_gallery");
-        arrayCulture.add("library");
-        arrayCulture.add("university");
-        arrayCulture.add("book_store");
-        arrayCulture.add("school");
-
-        arrayDab = new ArrayList<>();
-        arrayDab.add("bank");
-        arrayDab.add("atm");
-
-        //"airport|bus_station|parking|subway_station|taxi_stand|train_station|gas_station|"
-        arrayTransport = new ArrayList<>();
-        arrayTransport.add("airport");
-        arrayTransport.add("bus_station");
-        arrayTransport.add("parking");
-        arrayTransport.add("subway_station");
-        arrayTransport.add("taxi_stand");
-        arrayTransport.add("train_station");
-        arrayTransport.add("gas_station");
-
-        //"|gym|stadium|"
-        arraySport = new ArrayList<>();
-        arraySport.add("gym");
-        arraySport.add("stadium");
-
-        //"|restaurant|bakery|bar|cafe|food|"
-        arrayResto= new ArrayList<>();
-        arrayResto.add("restaurant");
-        arrayResto.add("bakery");
-        arrayResto.add("bar");
-        arrayResto.add("cafe");
-        arrayResto.add("food");
-
-        //"amusement_park|casino|aquarium|movie_theater|zoo|bowling_alley|night_club|"
-        arrayLoisirs = new ArrayList<>();
-        arrayLoisirs.add("amusement_park");
-        arrayLoisirs.add("casino");
-        arrayLoisirs.add("aquarium");
-        arrayLoisirs.add("movie_theater");
-        arrayLoisirs.add("zoo");
-        arrayLoisirs.add("bowling_alley");
-        arrayLoisirs.add("night_club");
-
-        //"|store|shoe_store|electronics_store|convenience_store|grocery_or_supermarket|home_goods_store|clothing_store|"
-        arrayShop = new ArrayList<>();
-        arrayShop.add("store");
-        arrayShop.add("shoe_store");
-        arrayShop.add("electronics_store");
-        arrayShop.add("convenience_store");
-        arrayShop.add("grocery_or_supermarket");
-        arrayShop.add("home_goods_store");
-        arrayShop.add("clothing_store");
-
-        //"|spa|hair_care|beauty_salon|health|dentist|doctor|hospital|pharmacy|veterinary_care|"
-        arraySante = new ArrayList<>();
-        arraySante.add("spa");
-        arraySante.add("hair_care");
-        arraySante.add("beauty_salon");
-        arraySante.add("health");
-        arraySante.add("dentist");
-        arraySante.add("doctor");
-        arraySante.add("hospital");
-        arraySante.add("pharmacy");
-        arraySante.add("veterinary_care");
     }
 
-    public void initialize(){
-        arrayTypes.add("aquarium");
-        arrayTypes.add("bakery");
-        arrayTypes.add("bowling_alley");
-        arrayTypes.add("art_gallery");
-        arrayTypes.add("bicycle_store");
-        arrayTypes.add("amusement_park");
-        arrayTypes.add("bar");
-        arrayTypes.add("cafe");
-        arrayTypes.add("casino");
-        arrayTypes.add("beauty_salon");
-        arrayTypes.add("car_wash");
-        arrayTypes.add("food");
-        arrayTypes.add("gym");
-        arrayTypes.add("meal_takeaway");
-        arrayTypes.add("movie_theater");
-        arrayTypes.add("night_club");
-        arrayTypes.add("meal_delivery");
-        arrayTypes.add("movie_rental");
-        arrayTypes.add("museum");
-        arrayTypes.add("park");
-        arrayTypes.add("restaurant");
-        arrayTypes.add("shopping_mall");
-        arrayTypes.add("stadium");
-        arrayTypes.add("spa");
-        arrayTypes.add("store");
-        arrayTypes.add("zoo");
-    }
-
-
-    /*
-        Condition de temps possibles:
-        Ensoleillé, Nuit claire, Ciel voilé, Nuit légèrement voilée, Faible passages nuageux, Nuit bien dégagée
-        brouillard, stratus, stratus se dissipant, nuit claire et stratus, éclaircies, nuit nuageuse, Faiblement nuageux, Fortement nuageux,
-        Averses de pluie faible, Nuit avec averses, Averses de pluie modérée, Averses de pluie forte, Couvert avec averses, Pluie faible,
-        Pluie forte, Pluie modérée, Developpement nuageux, Nuit avec developpement nuageux, Faiblement orageux, Nuit faiblement orageuse,
-        Orage modéré, Fortement orageux, Averse de neige faible, Nuit avec averse de neige faible, Neige faible, Neige modérée, Neige forte,
-        Pluie et neige mêlée faible, Pluie et neige mêlée modérée, Pluie et neige mêlée forte
-     */
-
-    public void initialize_result(int heure, String condition, int temperature){
+    public void initialize(int heure, String condition, int temperature){
         arrayConditionSoleil = new ArrayList<>();
         arrayConditionSoleil.add("Ensoleillé");
         arrayConditionSoleil.add("Nuit claire");
         arrayConditionSoleil.add("Nuit bien dégagée");
         arrayConditionSoleil.add("Nuit claire et stratus");
+        arrayConditionSoleil.add("Eclaircies");
+        arrayConditionSoleil.add("Nuit légèrement voilée");
+        arrayConditionSoleil.add("Faible passage nuageux");
 
         arrayConditionNuage = new ArrayList<>();
         arrayConditionNuage.add("Ciel voilé");
-        arrayConditionNuage.add("Nuit légèrement voilée");
-        arrayConditionNuage.add("Faible passage nuageux");
         arrayConditionNuage.add("Brouillard");
         arrayConditionNuage.add("Stratus");
         arrayConditionNuage.add("Stratus se dissipant");
-        arrayConditionNuage.add("Eclaircies");
         arrayConditionNuage.add("Nuit nuageuse");
         arrayConditionNuage.add("Faiblement nuageux");
         arrayConditionNuage.add("Fortement nuageux");
@@ -182,48 +65,185 @@ public class InitializerArrayTypes {
         arrayConditionNeige.add("Pluie et neige mêlée modérée");
         arrayConditionNeige.add("Pluie et neige mêlée forte");
 
-        if (heure >= 0 && heure < 4){
+        if (heure >= 22 && heure < 4){
             arrayTypes.add("casino");
             arrayTypes.add("night_club");
         }
-        else if ((heure >= 6 && heure < 11) || (heure >= 14 && heure < 17)){
-            if (heure < 11){
+        else if(heure >= 6 && heure < 22)
+        {
+            if (heure < 10){
                 arrayTypes.add("bakery");
-                arrayTypes.add("cafe");
             }
-            if (heure >= 8 ){
-                arrayTypes.add("amusement_park");
-                arrayTypes.add("aquarium");
+            if (heure < 11 || heure >= 13)
+            {
+                if (heure < 16){
+                   arrayTypes.add("cafe");
+                }
+            }
+            if (heure >= 8 && heure < 22){
+                if (heure < 11 || heure >= 16 && heure < 20){
+                    arrayTypes.add("gym");
+                }
+                if (heure >= 9)
+                {
+                    if (heure < 18)
+                    {
+                        if (arrayConditionSoleil.contains(condition)){
+                            arrayTypes.add("park");
+                            arrayTypes.add("amusement_park");
+                            arrayTypes.add("zoo");
+                        }
+                        else if (arrayConditionNuage.contains(condition) || arrayConditionPluie.contains(condition) || arrayConditionOrage.contains(condition))
+                        {
+                            arrayTypes.add("aquarium");
+                            arrayTypes.add("art_gallery");
+                            arrayTypes.add("store");
+                            arrayTypes.add("shopping_mall");
+                            arrayTypes.add("church");
+                        }
+                        else{
+
+                        }
+
+                        if (heure < 12){
+                            arrayTypes.add("spa");
+                            arrayTypes.add("hair_care");
+                            arrayTypes.add("beauty_salon");
+
+                            if (arrayConditionSoleil.contains(condition) || arrayConditionNuage.contains(condition)){
+                                arrayTypes.add("stadium");
+                            }
+                            else if (arrayConditionNuage.contains(condition) || arrayConditionPluie.contains(condition) || arrayConditionOrage.contains(condition)){
+                                arrayTypes.add("library");
+                            }
+                        }
+                    }
+                    if (heure >= 12 && heure < 14 || heure >= 19){
+                        arrayTypes.add("food");
+                        arrayTypes.add("restaurant");
+                        arrayTypes.add("meal_takeaway");
+                        arrayTypes.add("meal_delivery");
+                    }
+                    if (heure >= 14 && heure < 22){
+                        if (heure < 18)
+                        {
+                            arrayTypes.add("spa");
+                            arrayTypes.add("hair_care");
+                            arrayTypes.add("beauty_salon");
+                            if (arrayConditionNuage.contains(condition) || arrayConditionNuage.contains(condition) || arrayConditionPluie.contains(condition)){
+                                arrayTypes.add("movie_theater");
+                                arrayTypes.add("library");
+                                arrayTypes.add("bowling_alley");
+                                arrayTypes.add("movie_rental");
+                            }
+                            else if (arrayConditionSoleil.contains(condition)){
+                                arrayTypes.add("stadium");
+                            }
+                        }
+                        else{
+                            arrayTypes.add("movie_theater");
+                            arrayTypes.add("bowling");
+                            arrayTypes.add("movie_rental");
+                        }
+                    }
+                }
+            }
+            if (heure >= 17 && heure < 23)
+            {
+                arrayTypes.add("bar");
+            }
+        }
+    }
+
+
+    /*
+        Condition de temps possibles:
+        Ensoleillé, Nuit claire, Ciel voilé, Nuit légèrement voilée, Faible passages nuageux, Nuit bien dégagée
+        brouillard, stratus, stratus se dissipant, nuit claire et stratus, éclaircies, nuit nuageuse, Faiblement nuageux, Fortement nuageux,
+        Averses de pluie faible, Nuit avec averses, Averses de pluie modérée, Averses de pluie forte, Couvert avec averses, Pluie faible,
+        Pluie forte, Pluie modérée, Developpement nuageux, Nuit avec developpement nuageux, Faiblement orageux, Nuit faiblement orageuse,
+        Orage modéré, Fortement orageux, Averse de neige faible, Nuit avec averse de neige faible, Neige faible, Neige modérée, Neige forte,
+        Pluie et neige mêlée faible, Pluie et neige mêlée modérée, Pluie et neige mêlée forte
+     */
+
+    public void initialize_pref(String type_categorie){
+        switch(type_categorie)
+        {
+            case "culture":
+                arrayTypes.add("museum");
                 arrayTypes.add("art_gallery");
+                arrayTypes.add("library");
+                arrayTypes.add("university");
+                arrayTypes.add("book_store");
+                arrayTypes.add("school");
+                arrayTypes.add("church");
+                arrayTypes.add("hindu_temple");
+                break;
+
+            case "dab":
+                arrayTypes.add("bank");
+                arrayTypes.add("atm");
+                break;
+
+            case "transport":
+                arrayTypes.add("airport");
+                arrayTypes.add("bus_station");
+                arrayTypes.add("parking");
+                arrayTypes.add("subway_station");
+                arrayTypes.add("taxi_stand");
+                arrayTypes.add("train_station");
+                arrayTypes.add("gas_station");
+                break;
+
+            case "sport":
                 arrayTypes.add("gym");
-                arrayTypes.add("store");
-                arrayTypes.add("shopping_mall");
-                arrayTypes.add("zoo");
-            }
-        }
-        else if(heure >= 11 && heure < 14 || heure >= 19 && heure < 21){
-            if (arrayConditionSoleil.contains(condition)){
-                arrayTypes.add("food");
+                arrayTypes.add("stadium");
+                break;
+
+            case "resto":
                 arrayTypes.add("restaurant");
-            }
-            else{
-                arrayTypes.add("meal_takeaway");
-                arrayTypes.add("meal_delivery");
-            }
-            if (heure>= 19){
+                arrayTypes.add("bakery");
+                arrayTypes.add("bar");
+                arrayTypes.add("cafe");
+                arrayTypes.add("food");
+                break;
+
+            case "loisir":
+                arrayTypes.add("amusement_park");
+                arrayTypes.add("park");
+                arrayTypes.add("casino");
+                arrayTypes.add("aquarium");
+                arrayTypes.add("movie_theater");
+                arrayTypes.add("zoo");
                 arrayTypes.add("bowling_alley");
-            }
-        }
-        else if(heure >= 17 && heure < 19){
-            arrayTypes.add("bar");
-            arrayTypes.add("gym");
-            arrayTypes.add("movie_theater");
-        }
-        else{
-            arrayTypes.add("bar");
-            arrayTypes.add("casino");
-            arrayTypes.add("movie_rental");
-            arrayTypes.add("movie_theater");
+                arrayTypes.add("night_club");
+                break;
+
+            case "shop":
+                arrayTypes.add("store");
+                arrayTypes.add("florist");
+                arrayTypes.add("shoe_store");
+                arrayTypes.add("electronics_store");
+                arrayTypes.add("convenience_store");
+                arrayTypes.add("grocery_or_supermarket");
+                arrayTypes.add("home_goods_store");
+                arrayTypes.add("clothing_store");
+                break;
+
+            case "sante":
+                arrayTypes.add("spa");
+                arrayTypes.add("hair_care");
+                arrayTypes.add("beauty_salon");
+                arrayTypes.add("health");
+                arrayTypes.add("dentist");
+                arrayTypes.add("doctor");
+                arrayTypes.add("hospital");
+                arrayTypes.add("pharmacy");
+                arrayTypes.add("veterinary_care");
+                break;
+
+            case "null":
+                break;
         }
     }
 
@@ -233,5 +253,45 @@ public class InitializerArrayTypes {
 
     public void setArrayTypes(ArrayList<String> arrayTypes) {
         this.arrayTypes = arrayTypes;
+    }
+
+    public ArrayList<String> getArrayConditionSoleil() {
+        return arrayConditionSoleil;
+    }
+
+    public void setArrayConditionSoleil(ArrayList<String> arrayConditionSoleil) {
+        this.arrayConditionSoleil = arrayConditionSoleil;
+    }
+
+    public ArrayList<String> getArrayConditionNuage() {
+        return arrayConditionNuage;
+    }
+
+    public void setArrayConditionNuage(ArrayList<String> arrayConditionNuage) {
+        this.arrayConditionNuage = arrayConditionNuage;
+    }
+
+    public ArrayList<String> getArrayConditionPluie() {
+        return arrayConditionPluie;
+    }
+
+    public void setArrayConditionPluie(ArrayList<String> arrayConditionPluie) {
+        this.arrayConditionPluie = arrayConditionPluie;
+    }
+
+    public ArrayList<String> getArrayConditionOrage() {
+        return arrayConditionOrage;
+    }
+
+    public void setArrayConditionOrage(ArrayList<String> arrayConditionOrage) {
+        this.arrayConditionOrage = arrayConditionOrage;
+    }
+
+    public ArrayList<String> getArrayConditionNeige() {
+        return arrayConditionNeige;
+    }
+
+    public void setArrayConditionNeige(ArrayList<String> arrayConditionNeige) {
+        this.arrayConditionNeige = arrayConditionNeige;
     }
 }
