@@ -140,6 +140,7 @@ public class GreetingController {
 
                     if (placeDetailRequest.getResult().getOpening_hours() != null) {
                         HorairesHebdo horairesHebdo = new HorairesHebdo();
+
                         ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
                         int index = 0;
                         for (PlaceDetailValue.OpeningHours.HoursDay hoursDay : placeDetailRequest.getResult().getOpening_hours().getPeriods()) {
@@ -153,8 +154,19 @@ public class GreetingController {
                             index += 1;
                         }
                         horairesHebdo.setHoraires_jour(horairesJours);
+
+                        ArrayList<String> stringHoursWeek = new ArrayList<>();
+                        if (placeDetailRequest.getResult().getOpening_hours().getWeekday_text() != null){
+                            for (String string : placeDetailRequest.getResult().getOpening_hours().getWeekday_text()){
+                                stringHoursWeek.add(string);
+                            }
+                            horairesHebdo.setHorairesHebdo(stringHoursWeek);
+
+                        }
                         place.setHoraires_hebdo(horairesHebdo);
                     }
+
+
                     if (placeDetailRequest.getResult().getReviews() != null) {
                         ArrayList<Comment> commentArrayList = new ArrayList<>();
                         for (int k = 0; k < placeDetailRequest.getResult().getReviews().size(); k++) {
@@ -173,7 +185,7 @@ public class GreetingController {
                                     aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
                                     aspectArrayList.add(aspect);
                                 }
-                                comment.setAspectArrayList(aspectArrayList);
+                                comment.setAspects(aspectArrayList);
                             }
                             commentArrayList.add(comment);
                         }
@@ -244,7 +256,6 @@ public class GreetingController {
                 resultList.add(placebdd);
             }
         }
-
         Comparator<Place> comparator;
         switch(sort){
             case "dist":

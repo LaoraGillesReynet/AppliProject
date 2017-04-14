@@ -7,13 +7,13 @@ import java.util.ArrayList;
  */
 public class HorairesHebdo{
     private ArrayList<HorairesJour> horaires_jour ;
-    private String  horairesHebdo;
+    private ArrayList<String>  horairesHebdo;
 
     public HorairesHebdo(){
 
     }
 
-    public HorairesHebdo(ArrayList<HorairesJour> horaires_jour, String horairesHebdo) {
+    public HorairesHebdo(ArrayList<HorairesJour> horaires_jour, ArrayList<String> horairesHebdo) {
         this.horaires_jour = horaires_jour;
         this.horairesHebdo = horairesHebdo;
     }
@@ -26,11 +26,11 @@ public class HorairesHebdo{
         this.horaires_jour = horaires_jour;
     }
 
-    public String getHorairesHebdo() {
+    public ArrayList<String> getHorairesHebdo() {
         return horairesHebdo;
     }
 
-    public void setHorairesHebdo(String horairesHebdo) {
+    public void setHorairesHebdo(ArrayList<String> horairesHebdo) {
         this.horairesHebdo = horairesHebdo;
     }
 

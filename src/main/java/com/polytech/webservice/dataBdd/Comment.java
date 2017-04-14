@@ -11,7 +11,7 @@ public class Comment{
     private float rating;
     private String commentaire;
     private int time;
-    private ArrayList<Aspect> aspectArrayList;
+    private ArrayList<Aspect> aspects;
 
     public Comment(){
 
@@ -23,7 +23,7 @@ public class Comment{
         this.rating = rating;
         this.commentaire = commentaire;
         this.time = time;
-        this.aspectArrayList = aspectArrayList;
+        this.aspects = aspectArrayList;
     }
 
     public String getAuteur() {
@@ -66,12 +66,12 @@ public class Comment{
         this.time = time;
     }
 
-    public ArrayList<Aspect> getAspectArrayList() {
-        return aspectArrayList;
+    public ArrayList<Aspect> getAspects() {
+        return aspects;
     }
 
-    public void setAspectArrayList(ArrayList<Aspect> aspectArrayList) {
-        this.aspectArrayList = aspectArrayList;
+    public void setAspects(ArrayList<Aspect> aspects) {
+        this.aspects = aspects;
     }
 
     public static class Aspect{
