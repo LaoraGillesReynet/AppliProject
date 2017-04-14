@@ -78,7 +78,9 @@ public class GreetingController {
             for (String current : initializer.getArrayTypes()) {
                 typeString += '|' + current;
             }
-            typeString = typeString.substring(1);
+            if (!typeString.equals("")){
+                typeString = typeString.substring(1);
+            }
             System.out.println("Types: " + typeString);
         }
 
