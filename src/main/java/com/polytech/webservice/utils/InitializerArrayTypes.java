@@ -169,7 +169,7 @@ public class InitializerArrayTypes {
     public void initialize_pref(String type_categorie){
         switch(type_categorie)
         {
-            case "culture":
+            case "Culture":
                 arrayTypes.add("museum");
                 arrayTypes.add("art_gallery");
                 arrayTypes.add("library");
@@ -180,7 +180,7 @@ public class InitializerArrayTypes {
                 arrayTypes.add("hindu_temple");
                 break;
 
-            case "dab":
+            case "DAB":
                 arrayTypes.add("bank");
                 arrayTypes.add("atm");
                 break;
@@ -195,12 +195,12 @@ public class InitializerArrayTypes {
                 arrayTypes.add("gas_station");
                 break;
 
-            case "sport":
+            case "Sport":
                 arrayTypes.add("gym");
                 arrayTypes.add("stadium");
                 break;
 
-            case "resto":
+            case "Restaurant/Bar":
                 arrayTypes.add("restaurant");
                 arrayTypes.add("bakery");
                 arrayTypes.add("bar");
@@ -208,7 +208,7 @@ public class InitializerArrayTypes {
                 arrayTypes.add("food");
                 break;
 
-            case "loisir":
+            case "Loisir":
                 arrayTypes.add("amusement_park");
                 arrayTypes.add("park");
                 arrayTypes.add("casino");
@@ -219,7 +219,7 @@ public class InitializerArrayTypes {
                 arrayTypes.add("night_club");
                 break;
 
-            case "shop":
+            case "Magasin":
                 arrayTypes.add("store");
                 arrayTypes.add("florist");
                 arrayTypes.add("shoe_store");
@@ -230,7 +230,7 @@ public class InitializerArrayTypes {
                 arrayTypes.add("clothing_store");
                 break;
 
-            case "sante":
+            case "Santé":
                 arrayTypes.add("spa");
                 arrayTypes.add("hair_care");
                 arrayTypes.add("beauty_salon");
