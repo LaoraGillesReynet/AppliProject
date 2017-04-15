@@ -200,7 +200,7 @@ public class InitializerArrayTypes {
                 arrayTypes.add("stadium");
                 break;
 
-            case "Restaurant/Bar":
+            case "Bar/Restaurant":
                 arrayTypes.add("restaurant");
                 arrayTypes.add("bakery");
                 arrayTypes.add("bar");
