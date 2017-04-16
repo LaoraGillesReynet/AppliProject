@@ -33,6 +33,7 @@ public class GreetingController {
     public List<Place> placesRequest(@RequestParam(value="latitude") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort, @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref) {
         int compteurGoogleRequest = 0;
         //Requête API Météo
+        repository.deleteAll();
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
         RestTemplate restTemplateMeteo = new RestTemplate();
         MeteoRequest meteoRequest = restTemplateMeteo.getForObject(meteoString, MeteoRequest.class);
