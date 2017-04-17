@@ -231,10 +231,10 @@ public class GreetingController {
 
         // fetch all places
 
+        List<Place> resultList = new ArrayList<>();
         if (search.equals("null")) {
             boolean ok_types;
             double dist = 0;
-            List<Place> resultList = new ArrayList<>();
             for (Place placebdd : repository.findAll()) {
                 ok_types = false;
                 DistanceCalculator distanceCalculator = new DistanceCalculator();
@@ -252,39 +252,46 @@ public class GreetingController {
                     resultList.add(placebdd);
                 }
             }
-            Comparator<Place> comparator;
-            switch (sort) {
-                case "dist":
-                    comparator = new Comparator<Place>() {
-                        @Override
-                        public int compare(Place o1, Place o2) {
-                            DistanceCalculator distanceCalculator = new DistanceCalculator();
-                            double latitude1 = o1.getLatitude();
-                            double longitude1 = o1.getLongitude();
-                            double latitude2 = o2.getLatitude();
-                            double longitude2 = o2.getLongitude();
-                            double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
-                            double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
+        }
+        Comparator<Place> comparator;
+        switch (sort) {
+            case "dist":
+                comparator = new Comparator<Place>() {
+                    @Override
+                    public int compare(Place o1, Place o2) {
+                        DistanceCalculator distanceCalculator = new DistanceCalculator();
+                        double latitude1 = o1.getLatitude();
+                        double longitude1 = o1.getLongitude();
+                        double latitude2 = o2.getLatitude();
+                        double longitude2 = o2.getLongitude();
+                        double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
+                        double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
 
-                            if (distance1 <= distance2) {
-                                return -1;
-                            } else {
-                                return 1;
-                            }
+                        if (distance1 <= distance2) {
+                            return -1;
+                        } else {
+                            return 1;
                         }
-                    };
+                    }
+                };
+                if (search.equals("null")){
                     resultList.sort(comparator);
-                    break;
+                }
+                else
+                {
+                    resultGoogleRequest.sort(comparator);
+                }
+                break;
 
-                case "default":
-                    break;
-            }
+            case "default":
+                break;
+        }
+        if (search.equals("null")){
             return resultList;
         }
         else
         {
-           return resultGoogleRequest;
+            return resultGoogleRequest;
         }
-
     }
 }
