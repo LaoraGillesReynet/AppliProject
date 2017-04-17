@@ -55,7 +55,7 @@ public class GreetingController {
         Calendar cal = Calendar.getInstance();
         int heure = cal.get(Calendar.HOUR_OF_DAY);
         int minutes = cal.get(Calendar.MINUTE);
-        System.out.println(heure+"h "+minutes+"min ");
+        System.out.println(heure + "h " + minutes + "min ");
 
         //Requête API Google Places
         //Rayon et clé API
@@ -65,20 +65,17 @@ public class GreetingController {
         //Initialisation des types
         String typeString = "";
         InitializerArrayTypes initializer = new InitializerArrayTypes();
-        if (search.equals("null"))
-        {
-            if (pref.equals("null"))
-            {
+        if (search.equals("null")) {
+            if (pref.equals("null")) {
                 initializer.initialize(heure, conditionMeteo, temperature);
                 System.out.println(initializer.getArrayTypes());
-            }
-            else
+            } else
                 initializer.initialize_pref(pref);
 
             for (String current : initializer.getArrayTypes()) {
                 typeString += '|' + current;
             }
-            if (!typeString.equals("")){
+            if (!typeString.equals("")) {
                 typeString = typeString.substring(1);
             }
             System.out.println("Types: " + typeString);
@@ -88,33 +85,31 @@ public class GreetingController {
         String placeString = "";
         int index_token = 0;
         PlaceRequest placeRequest = new PlaceRequest();
+        ArrayList<Place> resultGoogleRequest = new ArrayList<>();
         while (next_page_token != null) {
             //String de l'url avec paramètre
             if (index_token == 0) {
-                if (search.equals("null") && pref.equals("null"))
-                {
+                if (search.equals("null") && pref.equals("null")) {
                     placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
-                }
-                else if(pref.equals("null")){
+                } else if (pref.equals("null")) {
                     placeString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + search + "&key=" + key;
-                }
-                else if(search.equals("null")){
+                } else if (search.equals("null")) {
                     placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
                 }
-            }
-            else
+            } else
                 placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key + "&pagetoken=" + next_page_token;
             compteurGoogleRequest += 1;
             RestTemplate restTemplate = new RestTemplate();
             placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
 
 
-            index_token+=1;
+            index_token += 1;
             boolean ok = false;
             for (int i = 0; i < placeRequest.getResults().size(); i++) {
                 for (Place place2 : repository.findAll()) {
                     if (place2.getName().equals(placeRequest.getResults().get(i).getName()) && !ok) {
                         ok = true;
+                        resultGoogleRequest.add(place2);
                     }
                 }
                 if (!ok) {
@@ -158,8 +153,8 @@ public class GreetingController {
                         horairesHebdo.setHoraires_jour(horairesJours);
 
                         ArrayList<String> stringHoursWeek = new ArrayList<>();
-                        if (placeDetailRequest.getResult().getOpening_hours().getWeekday_text() != null){
-                            for (String string : placeDetailRequest.getResult().getOpening_hours().getWeekday_text()){
+                        if (placeDetailRequest.getResult().getOpening_hours().getWeekday_text() != null) {
+                            for (String string : placeDetailRequest.getResult().getOpening_hours().getWeekday_text()) {
                                 stringHoursWeek.add(string);
                             }
                             horairesHebdo.setHorairesHebdo(stringHoursWeek);
@@ -201,6 +196,7 @@ public class GreetingController {
                         place.setPhotoRef(photo);
                     }
                     repository.save(place);
+                    resultGoogleRequest.add(place);
                 }
                 ok = false;
             }
@@ -235,57 +231,61 @@ public class GreetingController {
 
         // fetch all places
 
-
-        boolean ok_types;
-        double dist = 0;
-        List<Place> resultList = new ArrayList<>();
-        for (Place placebdd : repository.findAll())
-        {
-            ok_types = false;
-            DistanceCalculator distanceCalculator = new DistanceCalculator();
-            dist = distanceCalculator.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude(), "K");
-            for (String string : initializer.getArrayTypes()){
-                for ( String string2 : placebdd.getTypes()){
-                    if (string2.equals(string) && !ok_types){
-                        if(dist <= 7.0){
-                            ok_types = true;
+        if (search.equals("null")) {
+            boolean ok_types;
+            double dist = 0;
+            List<Place> resultList = new ArrayList<>();
+            for (Place placebdd : repository.findAll()) {
+                ok_types = false;
+                DistanceCalculator distanceCalculator = new DistanceCalculator();
+                dist = distanceCalculator.distance(latitude, longitude, placebdd.getLatitude(), placebdd.getLongitude(), "K");
+                for (String string : initializer.getArrayTypes()) {
+                    for (String string2 : placebdd.getTypes()) {
+                        if (string2.equals(string) && !ok_types) {
+                            if (dist <= 7.0) {
+                                ok_types = true;
+                            }
                         }
                     }
                 }
+                if (ok_types) {
+                    resultList.add(placebdd);
+                }
             }
-            if (ok_types)
-            {
-                resultList.add(placebdd);
+            repository.deleteAll();
+            Comparator<Place> comparator;
+            switch (sort) {
+                case "dist":
+                    comparator = new Comparator<Place>() {
+                        @Override
+                        public int compare(Place o1, Place o2) {
+                            DistanceCalculator distanceCalculator = new DistanceCalculator();
+                            double latitude1 = o1.getLatitude();
+                            double longitude1 = o1.getLongitude();
+                            double latitude2 = o2.getLatitude();
+                            double longitude2 = o2.getLongitude();
+                            double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
+                            double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
+
+                            if (distance1 <= distance2) {
+                                return -1;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    };
+                    resultList.sort(comparator);
+                    break;
+
+                case "default":
+                    break;
             }
+            return resultList;
         }
-        Comparator<Place> comparator;
-        switch(sort){
-            case "dist":
-                comparator = new Comparator<Place>() {
-                    @Override
-                    public int compare(Place o1, Place o2) {
-                        DistanceCalculator distanceCalculator = new DistanceCalculator();
-                        double latitude1 = o1.getLatitude();
-                        double longitude1 = o1.getLongitude();
-                        double latitude2 = o2.getLatitude();
-                        double longitude2 = o2.getLongitude();
-                        double distance1 = distanceCalculator.distance(latitude, longitude, latitude1, longitude1, "K");
-                        double distance2 = distanceCalculator.distance(latitude, longitude, latitude2, longitude2, "K");
-
-                        if (distance1 <= distance2){
-                            return -1;
-                        }
-                        else{
-                            return 1;
-                        }
-                    }
-                };
-                resultList.sort(comparator);
-                break;
-
-            case "default":
-                break;
+        else
+        {
+           return resultGoogleRequest;
         }
-        return resultList;
+
     }
 }
