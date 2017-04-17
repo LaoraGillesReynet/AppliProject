@@ -252,7 +252,6 @@ public class GreetingController {
                     resultList.add(placebdd);
                 }
             }
-            repository.deleteAll();
             Comparator<Place> comparator;
             switch (sort) {
                 case "dist":
