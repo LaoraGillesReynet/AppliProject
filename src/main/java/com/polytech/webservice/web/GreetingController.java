@@ -255,6 +255,7 @@ public class GreetingController {
         }
         Comparator<Place> comparator;
         switch (sort) {
+            case "default":
             case "dist":
                 comparator = new Comparator<Place>() {
                     @Override
@@ -281,9 +282,6 @@ public class GreetingController {
                 {
                     resultGoogleRequest.sort(comparator);
                 }
-                break;
-
-            case "default":
                 break;
         }
         if (search.equals("null")){
