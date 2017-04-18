@@ -294,7 +294,7 @@ public class GreetingController {
     }
 
 
-    @RequestMapping("/greeting")
+    @RequestMapping("/detail")
     public Place placeDetailRequest(@RequestParam(value="place_id") String place_id) {
 
         String key = "AIzaSyC9h5MYbC7YJB9DKdC4NUv4Pu91ip0UxS8";
