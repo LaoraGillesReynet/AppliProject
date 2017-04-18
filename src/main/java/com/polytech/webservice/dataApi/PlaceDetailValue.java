@@ -162,17 +162,17 @@ public class PlaceDetailValue {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class Geometry{
 
-        PlaceValue.Geometry.Location location;
+        Location location;
 
         public Geometry(){
 
         }
 
-        public PlaceValue.Geometry.Location getLocation(){
+        public Location getLocation(){
             return location;
         }
 
-        public void setLocation(PlaceValue.Geometry.Location location){
+        public void setLocation(Location location){
             this.location = location;
         }
 
