@@ -292,4 +292,102 @@ public class GreetingController {
             return resultGoogleRequest;
         }
     }
+
+
+    @RequestMapping("/greeting")
+    public Place placeDetailRequest(@RequestParam(value="place_id") String place_id) {
+
+        String key = "AIzaSyC9h5MYbC7YJB9DKdC4NUv4Pu91ip0UxS8";
+        String detailString = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=" + key;
+        RestTemplate restTemplate = new RestTemplate();
+        PlaceDetailRequest placeDetailRequest = restTemplate.getForObject(detailString, PlaceDetailRequest.class);
+
+        Place place = new Place();
+        boolean ok = false;
+        Place placebdd = new Place();
+        for (Place place2 : repository.findAll()) {
+            if (place2.getName().equals(placeDetailRequest.getResult().getName()) && !ok) {
+                ok = true;
+                placebdd = place2;
+            }
+        }
+        if (!ok) {
+            place.setPlace_id(placeDetailRequest.getResult().getPlace_id());
+            place.setName(placeDetailRequest.getResult().getName());
+            place.setAddress(placeDetailRequest.getResult().getFormatted_address());
+            place.setLatitude(placeDetailRequest.getResult().getGeometry().getLocation().getLat());
+            place.setLongitude(placeDetailRequest.getResult().getGeometry().getLocation().getLng());
+
+            place.setTypes(placeDetailRequest.getResult().getTypes());
+            place.setRating((int)placeDetailRequest.getResult().getRating());
+            place.setPhoneNumber(placeDetailRequest.getResult().getFormatted_phone_number());
+            place.setWebsite(placeDetailRequest.getResult().getWebsite());
+
+            if (placeDetailRequest.getResult().getOpening_hours() != null) {
+                HorairesHebdo horairesHebdo = new HorairesHebdo();
+
+                ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
+                int index = 0;
+                for (PlaceDetailValue.OpeningHours.HoursDay hoursDay : placeDetailRequest.getResult().getOpening_hours().getPeriods()) {
+                    HorairesHebdo.HorairesJour horairesJour = new HorairesHebdo.HorairesJour();
+                    horairesJour.setOuverture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getOpen().getTime());
+                    if (placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose() == null)
+                        horairesJour.setFermeture(null);
+                    else
+                        horairesJour.setFermeture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose().getTime());
+                    horairesJours.add(horairesJour);
+                    index += 1;
+                }
+                horairesHebdo.setHoraires_jour(horairesJours);
+
+                ArrayList<String> stringHoursWeek = new ArrayList<>();
+                if (placeDetailRequest.getResult().getOpening_hours().getWeekday_text() != null) {
+                    for (String string : placeDetailRequest.getResult().getOpening_hours().getWeekday_text()) {
+                        stringHoursWeek.add(string);
+                    }
+                    horairesHebdo.setHorairesHebdo(stringHoursWeek);
+
+                }
+                place.setHoraires_hebdo(horairesHebdo);
+            }
+
+
+            if (placeDetailRequest.getResult().getReviews() != null) {
+                ArrayList<Comment> commentArrayList = new ArrayList<>();
+                for (int k = 0; k < placeDetailRequest.getResult().getReviews().size(); k++) {
+                    Comment comment = new Comment();
+                    comment.setAuteur(placeDetailRequest.getResult().getReviews().get(k).getAuthor_name());
+                    comment.setCommentaire(placeDetailRequest.getResult().getReviews().get(k).getText());
+                    comment.setLanguage(placeDetailRequest.getResult().getReviews().get(k).getLanguage());
+                    comment.setRating(placeDetailRequest.getResult().getReviews().get(k).getRating());
+                    comment.setTime(placeDetailRequest.getResult().getReviews().get(k).getTime());
+
+                    if (placeDetailRequest.getResult().getReviews().get(k).getAspects() != null) {
+                        ArrayList<Comment.Aspect> aspectArrayList = new ArrayList<>();
+                        for (int l = 0; l < placeDetailRequest.getResult().getReviews().get(k).getAspects().size(); l++) {
+                            Comment.Aspect aspect = new Comment.Aspect();
+                            aspect.setRating(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getRating());
+                            aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
+                            aspectArrayList.add(aspect);
+                        }
+                        comment.setAspects(aspectArrayList);
+                    }
+                    commentArrayList.add(comment);
+                }
+                place.setComment(commentArrayList);
+            }
+            Photo photo = new Photo();
+            if (placeDetailRequest.getResult().getPhotos() != null) {
+                photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
+                photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
+                photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
+                place.setPhotoRef(photo);
+            }
+            repository.save(place);
+            return place;
+        }
+        else{
+            return placebdd;
+        }
+    }
 }

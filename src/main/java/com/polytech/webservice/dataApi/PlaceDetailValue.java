@@ -10,6 +10,12 @@ import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceDetailValue {
+    private PlaceValue.Geometry geometry;
+    private String name;
+    private String id;
+    private String place_id;
+    private ArrayList<String> types;
+
     private String formatted_address;
     private String formatted_phone_number;
     private String international_phone_number;
@@ -96,6 +102,46 @@ public class PlaceDetailValue {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public PlaceValue.Geometry getGeometry() {
+        return geometry;
+    }
+
+    public void setGeometry(PlaceValue.Geometry geometry) {
+        this.geometry = geometry;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    public ArrayList<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(ArrayList<String> types) {
+        this.types = types;
     }
 
     @Override
