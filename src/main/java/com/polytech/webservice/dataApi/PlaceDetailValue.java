@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceDetailValue {
-    private PlaceValue.Geometry geometry;
+    private Geometry geometry;
     private String name;
     private String id;
     private String place_id;
@@ -104,11 +104,11 @@ public class PlaceDetailValue {
         this.website = website;
     }
 
-    public PlaceValue.Geometry getGeometry() {
+    public Geometry getGeometry() {
         return geometry;
     }
 
-    public void setGeometry(PlaceValue.Geometry geometry) {
+    public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
 
@@ -157,6 +157,65 @@ public class PlaceDetailValue {
                 ", utc_offset=" + utc_offset +
                 ", website='" + website + '\'' +
                 '}';
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public class Geometry{
+
+        PlaceValue.Geometry.Location location;
+
+        public Geometry(){
+
+        }
+
+        public PlaceValue.Geometry.Location getLocation(){
+            return location;
+        }
+
+        public void setLocation(PlaceValue.Geometry.Location location){
+            this.location = location;
+        }
+
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        public class Location{
+            private double lat;
+            private double lng;
+
+            public Location(){
+
+            }
+
+            public double getLat(){
+                return lat;
+            }
+
+            public void setLat(double lat){
+                this.lat = lat;
+            }
+
+            public double getLng(){
+                return lng;
+            }
+
+            public void setLng(double lng){
+                this.lng = lng;
+            }
+
+            @Override
+            public String toString() {
+                return "Location{" +
+                        "lat=" + lat +
+                        ", lng=" + lng +
+                        '}';
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "Geometry{" +
+                    "location=" + location +
+                    '}';
+        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
