@@ -3,6 +3,7 @@ package com.polytech.webservice.web;
 import com.polytech.webservice.dataApi.*;
 import com.polytech.webservice.dataBdd.Place;
 import com.polytech.webservice.repository.PlaceRepository;
+import com.polytech.webservice.repository.SearchRepository;
 import com.polytech.webservice.utils.DistanceCalculator;
 import com.polytech.webservice.utils.InitializerArrayTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class GreetingController {
 
     @Autowired
     private PlaceRepository repository;
+
+    @Autowired
+    private SearchRepository repositoryS ;
 
     @RequestMapping("/greeting")
     public List<Place> placesRequest(@RequestParam(value="latitude") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort, @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref) {
@@ -57,6 +61,12 @@ public class GreetingController {
         int minutes = cal.get(Calendar.MINUTE);
         System.out.println(heure + "h " + minutes + "min ");
 
+        Search recherche = new Search() ;
+        recherche.setLongitude(longitude);
+        recherche.setLatitude(latitude);
+        recherche.setMeteo(conditionMeteo);
+        recherche.setHeure(heure);
+
         //Requête API Google Places
         //Rayon et clé API
         int radius = 10000;
@@ -81,6 +91,19 @@ public class GreetingController {
             System.out.println("Types: " + typeString);
         }
 
+        List<Search> listSearch = repositoryS.findAll() ;
+        boolean startSearch = true ;
+        for(Search search1 : listSearch){
+            if((search1.getHeure() == heure)
+                &&(search1.getMeteo().equals(conditionMeteo))
+                    &&(latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                    && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+
+                startSearch = false ;
+            }
+        }
+
+        //if(startSearch){
         String next_page_token = "";
         String placeString = "";
         int index_token = 0;
@@ -226,6 +249,7 @@ public class GreetingController {
             ex.printStackTrace();
         }
         */
+        repositoryS.save(recherche);
 
         System.out.println("nb requete api google :" + compteurGoogleRequest);
 

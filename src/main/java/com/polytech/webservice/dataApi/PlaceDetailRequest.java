@@ -2,7 +2,6 @@ package com.polytech.webservice.dataApi;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.ArrayList;
 
 /**
  * Created by Cyprien on 05/04/2017.
