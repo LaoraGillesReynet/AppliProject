@@ -124,12 +124,12 @@ public class GreetingController {
                     else{
                         placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=" +rayon ;
                         if (!types.equals("null")){
-                            String arrayTypes[] = types.split(",");
+                            String arrayTypes[] = types.split("=");
                             String typesGoogle = "";
                             for (int i = 0; i < arrayTypes.length; i++){
-                                typesGoogle = arrayTypes[i] + '|';
+                                typesGoogle = typesGoogle + arrayTypes[i] + '|';
                             }
-                            placeString = placeString + "&types=" + types;
+                            placeString = placeString + "&types=" + typesGoogle;
                         }
                         if (!maxPrice.equals("null")){
                             placeString = placeString + "&maxprice=" + maxPrice;
