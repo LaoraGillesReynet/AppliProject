@@ -34,7 +34,12 @@ public class GreetingController {
     private SearchRepository repositoryS ;
 
     @RequestMapping("/greeting")
-    public List<Place> placesRequest(@RequestParam(value="latitude") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort, @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref) {
+    public List<Place> placesRequest(@RequestParam(value="latitude") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort,
+                                     @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref,
+                                     @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
+                                     @RequestParam(value="maxPrice", defaultValue="null", required = false) String maxPrice, @RequestParam(value="tri", defaultValue="null", required = false) String tri,
+                                     @RequestParam(value="openNow", defaultValue="null", required = false) String openNow) {
+
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -113,7 +118,29 @@ public class GreetingController {
             //String de l'url avec paramètre
             if (index_token == 0) {
                 if (search.equals("null") && pref.equals("null")) {
-                    placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                    if (rayon.equals("null")){
+                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                    }
+                    else{
+                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude ;
+                        if (!types.equals("null")){
+                             placeString = placeString + "&types=" + types  + "&key=" + key;
+                        }
+                        if (!maxPrice.equals("null")){
+                            placeString = placeString + "&radius=" + radius;
+                        }
+                        else if (!tri.equals("null")){
+                            if (tri.equals("importance")){
+                                placeString = placeString + "&rankby=prominence";
+                            }
+                            if (tri.equals("distance")){
+                                placeString = placeString + "&rankby=distance";
+                            }
+                        }
+                        if (!openNow.equals("null")){
+                            placeString = placeString + "&opennow";
+                        }
+                    }
                 } else if (pref.equals("null")) {
                     placeString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + search + "&key=" + key;
                 } else if (search.equals("null")) {
@@ -160,7 +187,6 @@ public class GreetingController {
 
                     if (placeDetailRequest.getResult().getOpening_hours() != null) {
                         HorairesHebdo horairesHebdo = new HorairesHebdo();
-
                         ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
                         int index = 0;
                         for (PlaceDetailValue.OpeningHours.HoursDay hoursDay : placeDetailRequest.getResult().getOpening_hours().getPeriods()) {
@@ -309,7 +335,10 @@ public class GreetingController {
                 break;
         }
         if (search.equals("null")){
-            return resultList;
+            if (rayon.equals("null"))
+                return resultList;
+            else
+                return resultGoogleRequest;
         }
         else
         {
@@ -348,17 +377,16 @@ public class GreetingController {
             place.setWebsite(placeDetailRequest.getResult().getWebsite());
 
             if (placeDetailRequest.getResult().getOpening_hours() != null) {
-                HorairesHebdo horairesHebdo = new HorairesHebdo();
-
                 ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
+                HorairesHebdo horairesHebdo = new HorairesHebdo();
                 int index = 0;
                 for (PlaceDetailValue.OpeningHours.HoursDay hoursDay : placeDetailRequest.getResult().getOpening_hours().getPeriods()) {
                     HorairesHebdo.HorairesJour horairesJour = new HorairesHebdo.HorairesJour();
-                    horairesJour.setOuverture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getOpen().getTime());
                     if (placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose() == null)
                         horairesJour.setFermeture(null);
                     else
                         horairesJour.setFermeture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose().getTime());
+                    horairesJour.setOuverture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getOpen().getTime());
                     horairesJours.add(horairesJour);
                     index += 1;
                 }
@@ -380,9 +408,9 @@ public class GreetingController {
                 ArrayList<Comment> commentArrayList = new ArrayList<>();
                 for (int k = 0; k < placeDetailRequest.getResult().getReviews().size(); k++) {
                     Comment comment = new Comment();
+                    comment.setLanguage(placeDetailRequest.getResult().getReviews().get(k).getLanguage());
                     comment.setAuteur(placeDetailRequest.getResult().getReviews().get(k).getAuthor_name());
                     comment.setCommentaire(placeDetailRequest.getResult().getReviews().get(k).getText());
-                    comment.setLanguage(placeDetailRequest.getResult().getReviews().get(k).getLanguage());
                     comment.setRating(placeDetailRequest.getResult().getReviews().get(k).getRating());
                     comment.setTime(placeDetailRequest.getResult().getReviews().get(k).getTime());
 
@@ -390,8 +418,8 @@ public class GreetingController {
                         ArrayList<Comment.Aspect> aspectArrayList = new ArrayList<>();
                         for (int l = 0; l < placeDetailRequest.getResult().getReviews().get(k).getAspects().size(); l++) {
                             Comment.Aspect aspect = new Comment.Aspect();
-                            aspect.setRating(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getRating());
                             aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
+                            aspect.setRating(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getRating());
                             aspectArrayList.add(aspect);
                         }
                         comment.setAspects(aspectArrayList);
@@ -403,8 +431,8 @@ public class GreetingController {
             Photo photo = new Photo();
             if (placeDetailRequest.getResult().getPhotos() != null) {
                 photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
-                photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
                 photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
+                photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
                 place.setPhotoRef(photo);
             }
             repository.save(place);
