@@ -122,9 +122,9 @@ public class GreetingController {
                         placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
                     }
                     else{
-                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=" +radius ;
+                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=" +rayon ;
                         if (!types.equals("null")){
-                             placeString = placeString + "&types=" + types  + "&key=" + key;
+                             placeString = placeString + "&types=" + types;
                         }
                         if (!maxPrice.equals("null")){
                             placeString = placeString + "&maxprice=" + maxPrice;
@@ -132,6 +132,7 @@ public class GreetingController {
                         if (!openNow.equals("null")){
                             placeString = placeString + "&opennow";
                         }
+                        placeString = placeString + "&key=" + key;
                         System.out.println(placeString);
                     }
                 } else if (pref.equals("null")) {
