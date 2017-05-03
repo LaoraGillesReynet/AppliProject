@@ -38,7 +38,7 @@ public class GreetingController {
                                      @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref,
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
                                      @RequestParam(value="maxPrice", defaultValue="null", required = false) String maxPrice,
-                                     @RequestParam(value="openNow", defaultValue="null", required = false) String openNow) {
+                                     @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
         int compteurGoogleRequest = 0;
         //Requête API Météo
