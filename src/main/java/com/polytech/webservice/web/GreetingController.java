@@ -96,7 +96,7 @@ public class GreetingController {
         boolean startSearch = true ;
         for(Search search1 : listSearch){
             if (search1.getType_search().equals("initial")){
-                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour == search1.getJour() + 1) &&
+                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1) &&
                         (search1.getMeteo().equals(conditionMeteo)) && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
                         && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
 
@@ -104,7 +104,7 @@ public class GreetingController {
                 }
             }
             else if (search1.getType_search().equals("preference")){
-                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour == search1.getJour() + 1)
+                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1)
                         && search1.getTypes().equals(typeString)
                         && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
                         && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
