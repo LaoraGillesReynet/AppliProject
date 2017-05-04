@@ -24,7 +24,6 @@ public class Search {
     private int jour;
     private int mois;
     private int annee;
-    private String categorieTypes;          //preference
     private String autocompleteString ;     //champs autocomplete
     private int rayon;                      //advance_search
     private String types;                   //advance_search
@@ -35,7 +34,7 @@ public class Search {
     }
 
     @PersistenceConstructor
-    public Search (String id, String type_search, double longitude, double latitude, String meteo, int heure, int jour, int mois, int annee, String categorieTypes, String autocompleteString, int rayon, String types, String openNow){
+    public Search (String id, String type_search, double longitude, double latitude, String meteo, int heure, int jour, int mois, int annee, String autocompleteString, int rayon, String types, String openNow){
         this.id = id ;
         this.type_search = type_search;
         this.longitude = longitude ;
@@ -45,7 +44,6 @@ public class Search {
         this.jour = jour;
         this.mois = mois;
         this.annee = annee;
-        this.categorieTypes = categorieTypes;
         this.autocompleteString = autocompleteString;
         this.rayon = rayon;
         this.types = types;
@@ -122,14 +120,6 @@ public class Search {
 
     public void setAnnee(int annee) {
         this.annee = annee;
-    }
-
-    public String getCategorieTypes() {
-        return categorieTypes;
-    }
-
-    public void setCategorieTypes(String categorieTypes) {
-        this.categorieTypes = categorieTypes;
     }
 
     public String getAutocompleteString() {

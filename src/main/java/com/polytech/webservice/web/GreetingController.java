@@ -95,234 +95,242 @@ public class GreetingController {
         List<Search> listSearch = repositoryS.findAll() ;
         boolean startSearch = true ;
         for(Search search1 : listSearch){
-            if((search1.getHeure() == heure)
-                &&(search1.getMeteo().equals(conditionMeteo))
-                    &&(latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
-                    && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+            if (search1.getType_search().equals("initial")){
+                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour == search1.getJour() + 1) &&
+                        (search1.getMeteo().equals(conditionMeteo)) && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                        && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
 
-                startSearch = false ;
+                    startSearch = false;
+                }
+            }
+            else if (search1.getType_search().equals("preference")){
+                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour == search1.getJour() + 1)
+                        && search1.getTypes().equals(typeString)
+                        && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                        && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+                    startSearch = false;
+                }
             }
         }
 
-        //if(startSearch){
-        String next_page_token = "";
-        String placeString = "";
-        int index_token = 0;
-        PlaceRequest placeRequest = new PlaceRequest();
         ArrayList<Place> resultGoogleRequest = new ArrayList<>();
-        Search recherche = new Search() ;
-        while (next_page_token != null) {
-            //String de l'url avec paramètre
-            if (index_token == 0) {
-                if (search.equals("null") && pref.equals("null")) {
-                    if (rayon.equals("null")){
-                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
-                        recherche.setType_search("initial");
+        if(startSearch) {
+            String next_page_token = "";
+            String placeString = "";
+            int index_token = 0;
+            PlaceRequest placeRequest = new PlaceRequest();
+            Search recherche = new Search();
+            while (next_page_token != null) {
+                //String de l'url avec paramètre
+                if (index_token == 0) {
+                    if (search.equals("null") && pref.equals("null")) {
+                        if (rayon.equals("null")) {
+                            placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                            recherche.setType_search("initial");
+                            recherche.setLongitude(longitude);
+                            recherche.setLatitude(latitude);
+                            recherche.setTypes(typeString);
+                            recherche.setRayon(radius);
+                            recherche.setMeteo(conditionMeteo);
+                            recherche.setHeure(heure);
+                            recherche.setJour(jour);
+                            recherche.setMois(mois);
+                            recherche.setAnnee(annee);
+                            recherche.setAutocompleteString("");
+                            recherche.setOpenNow("");
+                        } else {
+                            recherche.setType_search("advance_search");
+                            recherche.setLongitude(longitude);
+                            recherche.setLatitude(latitude);
+                            recherche.setRayon(Integer.parseInt(rayon));
+                            recherche.setMeteo("");
+                            recherche.setHeure(heure);
+                            recherche.setJour(jour);
+                            recherche.setMois(mois);
+                            recherche.setAnnee(annee);
+                            recherche.setAutocompleteString("");
+                            recherche.setTypes("");
+                            recherche.setOpenNow("");
+                            placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=" + rayon;
+                            if (!types.equals("null")) {
+                                String arrayTypes[] = types.split("__");
+                                String typesGoogle = "";
+                                for (int i = 0; i < arrayTypes.length; i++) {
+                                    typesGoogle = typesGoogle + arrayTypes[i] + '|';
+                                }
+                                System.out.println(typesGoogle);
+                                recherche.setTypes(typesGoogle);
+                                placeString = placeString + "&types=" + typesGoogle;
+                            }
+                            if (openNow.equals("true")) {
+                                placeString = placeString + "&opennow";
+                                recherche.setOpenNow("");
+                            }
+                            placeString = placeString + "&key=" + key;
+                            System.out.println(placeString);
+                        }
+                    } else if (pref.equals("null")) {
+                        recherche.setType_search("autocomplete");
                         recherche.setLongitude(longitude);
                         recherche.setLatitude(latitude);
-                        recherche.setTypes(typeString);
-                        recherche.setRayon(radius);
-                        recherche.setMeteo(conditionMeteo);
+                        recherche.setRayon(0);
+                        recherche.setMeteo("");
                         recherche.setHeure(heure);
                         recherche.setJour(jour);
                         recherche.setMois(mois);
                         recherche.setAnnee(annee);
-                        recherche.setAutocompleteString("");
+                        recherche.setAutocompleteString(search);
+                        recherche.setTypes("");
                         recherche.setOpenNow("");
-                    }
-                    else{
-                        recherche.setType_search("advance_search");
+                        placeString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + search + "&key=" + key;
+                    } else if (search.equals("null")) {
+                        recherche.setType_search("preference");
                         recherche.setLongitude(longitude);
                         recherche.setLatitude(latitude);
-                        recherche.setRayon(Integer.parseInt(rayon));
+                        recherche.setRayon(radius);
                         recherche.setMeteo("");
                         recherche.setHeure(heure);
                         recherche.setJour(jour);
                         recherche.setMois(mois);
                         recherche.setAnnee(annee);
                         recherche.setAutocompleteString("");
-                        recherche.setTypes("");
+                        recherche.setTypes(typeString);
                         recherche.setOpenNow("");
-                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=" +rayon ;
-                        if (!types.equals("null")){
-                            String arrayTypes[] = types.split("__");
-                            String typesGoogle = "";
-                            for (int i = 0; i < arrayTypes.length; i++){
-                                typesGoogle = typesGoogle + arrayTypes[i] + '|';
+                        placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                    }
+                } else
+                    placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key + "&pagetoken=" + next_page_token;
+                compteurGoogleRequest += 1;
+                RestTemplate restTemplate = new RestTemplate();
+                placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
+
+
+                index_token += 1;
+                boolean ok = false;
+                for (int i = 0; i < placeRequest.getResults().size(); i++) {
+                    for (Place place2 : repository.findAll()) {
+                        if (place2.getName().equals(placeRequest.getResults().get(i).getName()) && !ok) {
+                            ok = true;
+                            resultGoogleRequest.add(place2);
+                        }
+                    }
+                    if (!ok) {
+                        String id_place = placeRequest.getResults().get(i).getPlace_id();
+
+                        //Requête Google Place Details
+                        String detailString = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + id_place + "&key=" + key;
+                        compteurGoogleRequest += 1;
+                        RestTemplate restTemplateDetail = new RestTemplate();
+                        PlaceDetailRequest placeDetailRequest = restTemplate.getForObject(detailString, PlaceDetailRequest.class);
+                        System.out.println(placeDetailRequest);
+
+                        //Création et initialisation de l'objet Place avant ajout en bdd
+                        Place place = new Place();
+                        place.setPlace_id(placeRequest.getResults().get(i).getPlace_id());
+                        place.setName(placeRequest.getResults().get(i).getName());
+                        place.setAddress(placeDetailRequest.getResult().getFormatted_address());
+                        place.setLatitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLat());
+                        place.setLongitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLng());
+
+                        place.setTypes(placeRequest.getResults().get(i).getTypes());
+                        place.setRating(placeRequest.getResults().get(i).getRating());
+                        place.setPhoneNumber(placeDetailRequest.getResult().getFormatted_phone_number());
+                        place.setWebsite(placeDetailRequest.getResult().getWebsite());
+
+                        if (placeDetailRequest.getResult().getOpening_hours() != null) {
+                            HorairesHebdo horairesHebdo = new HorairesHebdo();
+                            ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
+                            int index = 0;
+                            for (PlaceDetailValue.OpeningHours.HoursDay hoursDay : placeDetailRequest.getResult().getOpening_hours().getPeriods()) {
+                                HorairesHebdo.HorairesJour horairesJour = new HorairesHebdo.HorairesJour();
+                                horairesJour.setOuverture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getOpen().getTime());
+                                if (placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose() == null)
+                                    horairesJour.setFermeture(null);
+                                else
+                                    horairesJour.setFermeture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose().getTime());
+                                horairesJours.add(horairesJour);
+                                index += 1;
                             }
-                            System.out.println(typesGoogle);
-                            recherche.setTypes(typesGoogle);
-                            placeString = placeString + "&types=" + typesGoogle;
-                        }
-                        if (openNow.equals("true")){
-                            placeString = placeString + "&opennow";
-                            recherche.setOpenNow("");
-                        }
-                        placeString = placeString + "&key=" + key;
-                        System.out.println(placeString);
-                    }
-                } else if (pref.equals("null")) {
-                    recherche.setType_search("autocomplete");
-                    recherche.setLongitude(longitude);
-                    recherche.setLatitude(latitude);
-                    recherche.setRayon(0);
-                    recherche.setMeteo("");
-                    recherche.setHeure(heure);
-                    recherche.setJour(jour);
-                    recherche.setMois(mois);
-                    recherche.setAnnee(annee);
-                    recherche.setAutocompleteString("search");
-                    recherche.setTypes("");
-                    recherche.setOpenNow("");
-                    placeString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + search + "&key=" + key;
-                } else if (search.equals("null")) {
-                    recherche.setType_search("preference");
-                    recherche.setLongitude(longitude);
-                    recherche.setLatitude(latitude);
-                    recherche.setRayon(radius);
-                    recherche.setMeteo("");
-                    recherche.setHeure(heure);
-                    recherche.setJour(jour);
-                    recherche.setMois(mois);
-                    recherche.setAnnee(annee);
-                    recherche.setAutocompleteString("");
-                    recherche.setTypes(typeString);
-                    recherche.setOpenNow("");
-                    placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
-                }
-            } else
-                placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key + "&pagetoken=" + next_page_token;
-            compteurGoogleRequest += 1;
-            RestTemplate restTemplate = new RestTemplate();
-            placeRequest = restTemplate.getForObject(placeString, PlaceRequest.class);
+                            horairesHebdo.setHoraires_jour(horairesJours);
 
-
-            index_token += 1;
-            boolean ok = false;
-            for (int i = 0; i < placeRequest.getResults().size(); i++) {
-                for (Place place2 : repository.findAll()) {
-                    if (place2.getName().equals(placeRequest.getResults().get(i).getName()) && !ok) {
-                        ok = true;
-                        resultGoogleRequest.add(place2);
-                    }
-                }
-                if (!ok) {
-                    String id_place = placeRequest.getResults().get(i).getPlace_id();
-
-                    //Requête Google Place Details
-                    String detailString = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + id_place + "&key=" + key;
-                    compteurGoogleRequest += 1;
-                    RestTemplate restTemplateDetail = new RestTemplate();
-                    PlaceDetailRequest placeDetailRequest = restTemplate.getForObject(detailString, PlaceDetailRequest.class);
-                    System.out.println(placeDetailRequest);
-
-                    //Création et initialisation de l'objet Place avant ajout en bdd
-                    Place place = new Place();
-                    place.setPlace_id(placeRequest.getResults().get(i).getPlace_id());
-                    place.setName(placeRequest.getResults().get(i).getName());
-                    place.setAddress(placeDetailRequest.getResult().getFormatted_address());
-                    place.setLatitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLat());
-                    place.setLongitude(placeRequest.getResults().get(i).getGeometry().getLocation().getLng());
-
-                    place.setTypes(placeRequest.getResults().get(i).getTypes());
-                    place.setRating(placeRequest.getResults().get(i).getRating());
-                    place.setPhoneNumber(placeDetailRequest.getResult().getFormatted_phone_number());
-                    place.setWebsite(placeDetailRequest.getResult().getWebsite());
-
-                    if (placeDetailRequest.getResult().getOpening_hours() != null) {
-                        HorairesHebdo horairesHebdo = new HorairesHebdo();
-                        ArrayList<HorairesHebdo.HorairesJour> horairesJours = new ArrayList<>();
-                        int index = 0;
-                        for (PlaceDetailValue.OpeningHours.HoursDay hoursDay : placeDetailRequest.getResult().getOpening_hours().getPeriods()) {
-                            HorairesHebdo.HorairesJour horairesJour = new HorairesHebdo.HorairesJour();
-                            horairesJour.setOuverture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getOpen().getTime());
-                            if (placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose() == null)
-                                horairesJour.setFermeture(null);
-                            else
-                                horairesJour.setFermeture(placeDetailRequest.getResult().getOpening_hours().getPeriods().get(index).getClose().getTime());
-                            horairesJours.add(horairesJour);
-                            index += 1;
-                        }
-                        horairesHebdo.setHoraires_jour(horairesJours);
-
-                        ArrayList<String> stringHoursWeek = new ArrayList<>();
-                        if (placeDetailRequest.getResult().getOpening_hours().getWeekday_text() != null) {
-                            for (String string : placeDetailRequest.getResult().getOpening_hours().getWeekday_text()) {
-                                stringHoursWeek.add(string);
-                            }
-                            horairesHebdo.setHorairesHebdo(stringHoursWeek);
-
-                        }
-                        place.setHoraires_hebdo(horairesHebdo);
-                    }
-
-
-                    if (placeDetailRequest.getResult().getReviews() != null) {
-                        ArrayList<Comment> commentArrayList = new ArrayList<>();
-                        for (int k = 0; k < placeDetailRequest.getResult().getReviews().size(); k++) {
-                            Comment comment = new Comment();
-                            comment.setAuteur(placeDetailRequest.getResult().getReviews().get(k).getAuthor_name());
-                            comment.setCommentaire(placeDetailRequest.getResult().getReviews().get(k).getText());
-                            comment.setLanguage(placeDetailRequest.getResult().getReviews().get(k).getLanguage());
-                            comment.setRating(placeDetailRequest.getResult().getReviews().get(k).getRating());
-                            comment.setTime(placeDetailRequest.getResult().getReviews().get(k).getTime());
-
-                            if (placeDetailRequest.getResult().getReviews().get(k).getAspects() != null) {
-                                ArrayList<Comment.Aspect> aspectArrayList = new ArrayList<>();
-                                for (int l = 0; l < placeDetailRequest.getResult().getReviews().get(k).getAspects().size(); l++) {
-                                    Comment.Aspect aspect = new Comment.Aspect();
-                                    aspect.setRating(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getRating());
-                                    aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
-                                    aspectArrayList.add(aspect);
+                            ArrayList<String> stringHoursWeek = new ArrayList<>();
+                            if (placeDetailRequest.getResult().getOpening_hours().getWeekday_text() != null) {
+                                for (String string : placeDetailRequest.getResult().getOpening_hours().getWeekday_text()) {
+                                    stringHoursWeek.add(string);
                                 }
-                                comment.setAspects(aspectArrayList);
+                                horairesHebdo.setHorairesHebdo(stringHoursWeek);
+
                             }
-                            commentArrayList.add(comment);
+                            place.setHoraires_hebdo(horairesHebdo);
                         }
-                        place.setComment(commentArrayList);
+
+
+                        if (placeDetailRequest.getResult().getReviews() != null) {
+                            ArrayList<Comment> commentArrayList = new ArrayList<>();
+                            for (int k = 0; k < placeDetailRequest.getResult().getReviews().size(); k++) {
+                                Comment comment = new Comment();
+                                comment.setAuteur(placeDetailRequest.getResult().getReviews().get(k).getAuthor_name());
+                                comment.setCommentaire(placeDetailRequest.getResult().getReviews().get(k).getText());
+                                comment.setLanguage(placeDetailRequest.getResult().getReviews().get(k).getLanguage());
+                                comment.setRating(placeDetailRequest.getResult().getReviews().get(k).getRating());
+                                comment.setTime(placeDetailRequest.getResult().getReviews().get(k).getTime());
+
+                                if (placeDetailRequest.getResult().getReviews().get(k).getAspects() != null) {
+                                    ArrayList<Comment.Aspect> aspectArrayList = new ArrayList<>();
+                                    for (int l = 0; l < placeDetailRequest.getResult().getReviews().get(k).getAspects().size(); l++) {
+                                        Comment.Aspect aspect = new Comment.Aspect();
+                                        aspect.setRating(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getRating());
+                                        aspect.setType(placeDetailRequest.getResult().getReviews().get(k).getAspects().get(l).getTypes());
+                                        aspectArrayList.add(aspect);
+                                    }
+                                    comment.setAspects(aspectArrayList);
+                                }
+                                commentArrayList.add(comment);
+                            }
+                            place.setComment(commentArrayList);
+                        }
+                        Photo photo = new Photo();
+                        if (placeDetailRequest.getResult().getPhotos() != null) {
+                            photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
+                            photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
+                            photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
+                            place.setPhotoRef(photo);
+                        }
+                        repository.save(place);
+                        resultGoogleRequest.add(place);
                     }
-                    Photo photo = new Photo();
-                    if (placeDetailRequest.getResult().getPhotos() != null) {
-                        photo.setHeight(placeDetailRequest.getResult().getPhotos().get(0).getHeight());
-                        photo.setWidth(placeDetailRequest.getResult().getPhotos().get(0).getWidth());
-                        photo.setReference(placeDetailRequest.getResult().getPhotos().get(0).getPhoto_reference());
-                        place.setPhotoRef(photo);
-                    }
-                    repository.save(place);
-                    resultGoogleRequest.add(place);
+                    ok = false;
                 }
-                ok = false;
+                System.out.println(placeRequest.toString());
+                next_page_token = placeRequest.getNext_page_token();
             }
-            System.out.println(placeRequest.toString());
-            next_page_token = placeRequest.getNext_page_token();
+            //With jsonObject
+            /*try {
+                URL url = new URL(placeString);
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                String strTemp = "";
+                String jsonString = "";
+                while (null != (strTemp = br.readLine())) {
+                    jsonString = jsonString+"\n"+strTemp;
+                    System.out.println(strTemp);
+                }
+                JsonReader reader = Json.createReader(new StringReader(jsonString));
+                JsonObject placeObject = reader.readObject();
+                reader.close();
+
+                JsonArray results = placeObject.getJsonArray("results");
+                for (JsonValue jsonValue : results) {
+                    JsonObject resultsObject = (JsonObject) jsonValue;
+                    System.out.println(resultsObject.getString("name"));
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            */
+            repositoryS.save(recherche);
+
+            System.out.println("nb requete api google :" + compteurGoogleRequest);
         }
-        //With jsonObject
-        /*try {
-            URL url = new URL(placeString);
-            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-            String strTemp = "";
-            String jsonString = "";
-            while (null != (strTemp = br.readLine())) {
-                jsonString = jsonString+"\n"+strTemp;
-                System.out.println(strTemp);
-            }
-            JsonReader reader = Json.createReader(new StringReader(jsonString));
-            JsonObject placeObject = reader.readObject();
-            reader.close();
-
-            JsonArray results = placeObject.getJsonArray("results");
-            for (JsonValue jsonValue : results) {
-                JsonObject resultsObject = (JsonObject) jsonValue;
-                System.out.println(resultsObject.getString("name"));
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        */
-        repositoryS.save(recherche);
-
-        System.out.println("nb requete api google :" + compteurGoogleRequest);
-
         // fetch all places
 
         List<Place> resultList = new ArrayList<>();
