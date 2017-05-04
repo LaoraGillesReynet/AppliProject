@@ -131,12 +131,12 @@ public class GreetingController {
         }
 
         ArrayList<Place> resultGoogleRequest = new ArrayList<>();
+        Search recherche = new Search();
         if(startSearch) {
             String next_page_token = "";
             String placeString = "";
             int index_token = 0;
             PlaceRequest placeRequest = new PlaceRequest();
-            Search recherche = new Search();
             while (next_page_token != null) {
                 //String de l'url avec paramètre
                 if (index_token == 0) {
@@ -344,10 +344,9 @@ public class GreetingController {
                 ex.printStackTrace();
             }
             */
-            repositoryS.save(recherche);
-
-            System.out.println("nb requete api google :" + compteurGoogleRequest);
         }
+        repositoryS.save(recherche);
+        System.out.println("nb requete api google :" + compteurGoogleRequest);
         // fetch all places
 
         List<Place> resultList = new ArrayList<>();
