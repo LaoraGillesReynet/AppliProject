@@ -16,22 +16,38 @@ public class Search {
     @Id
     private String id ;
 
+    private String type_search;             //(Initial, preference, autocomplete, advance_search
     private double longitude ;
     private double latitude ;
-    private String meteo ;
+    private String meteo ;                  //Initial
     private int heure ;
+    private int jour;
+    private int mois;
+    private int annee;
+    private String categorieTypes;          //preference
+    private String autocompleteString ;     //champs autocomplete
+    private int rayon;                      //advance_search
+    private String types;                   //advance_search
 
 
     public Search() {
     }
 
     @PersistenceConstructor
-    public Search (String id, double longitude, double latitude, String meteo, int heure){
+    public Search (String id, String type_search, double longitude, double latitude, String meteo, int heure, int jour, int mois, int annee, String categorieTypes, String autocompleteString, int rayon, String types){
         this.id = id ;
+        this.type_search = type_search;
         this.longitude = longitude ;
         this.latitude = latitude ;
         this.meteo = meteo ;
         this.heure = heure ;
+        this.jour = jour;
+        this.mois = mois;
+        this.annee = annee;
+        this.categorieTypes = categorieTypes;
+        this.autocompleteString = autocompleteString;
+        this.rayon = rayon;
+        this.types = types;
     }
 
     public String getId() {
@@ -72,5 +88,69 @@ public class Search {
 
     public void setHeure(int heure) {
         this.heure = heure;
+    }
+
+    public String getType_search() {
+        return type_search;
+    }
+
+    public void setType_search(String type_search) {
+        this.type_search = type_search;
+    }
+
+    public int getJour() {
+        return jour;
+    }
+
+    public void setJour(int jour) {
+        this.jour = jour;
+    }
+
+    public int getMois() {
+        return mois;
+    }
+
+    public void setMois(int mois) {
+        this.mois = mois;
+    }
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public String getCategorieTypes() {
+        return categorieTypes;
+    }
+
+    public void setCategorieTypes(String categorieTypes) {
+        this.categorieTypes = categorieTypes;
+    }
+
+    public String getAutocompleteString() {
+        return autocompleteString;
+    }
+
+    public void setAutocompleteString(String autocompleteString) {
+        this.autocompleteString = autocompleteString;
+    }
+
+    public int getRayon() {
+        return rayon;
+    }
+
+    public void setRayon(int rayon) {
+        this.rayon = rayon;
+    }
+
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
     }
 }

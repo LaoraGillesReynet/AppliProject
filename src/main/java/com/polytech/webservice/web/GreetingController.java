@@ -37,7 +37,6 @@ public class GreetingController {
     public List<Place> placesRequest(@RequestParam(value="latitude") double latitude, @RequestParam(value="longitude") double longitude, @RequestParam(value="sort", defaultValue = "default", required = false) String sort,
                                      @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref,
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
-                                     @RequestParam(value="maxprice", defaultValue="null", required = false) String maxPrice,
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
         int compteurGoogleRequest = 0;
