@@ -31,6 +31,11 @@ public class Search {
 
 
     public Search() {
+        this.type_search = "";
+        this.meteo = "" ;
+        this.autocompleteString = "";
+        this.types = "";
+        this.openNow = "";
     }
 
     @PersistenceConstructor
