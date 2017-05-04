@@ -68,6 +68,23 @@ public class GreetingController {
         int annee = cal.get(Calendar.YEAR);
         System.out.println(heure + "h " + minutes + "min ");
 
+        Search firstRecherche = new Search();
+
+        firstRecherche.setType_search("non null");
+        firstRecherche.setLongitude(0);
+        firstRecherche.setLatitude(0);
+        firstRecherche.setTypes("null");
+        firstRecherche.setRayon(0);
+        firstRecherche.setMeteo("null");
+        firstRecherche.setHeure(heure);
+        firstRecherche.setJour(jour);
+        firstRecherche.setMois(mois);
+        firstRecherche.setAnnee(annee);
+        firstRecherche.setAutocompleteString("null");
+        firstRecherche.setOpenNow("null");
+
+        repositoryS.save(firstRecherche);
+
         //Requête API Google Places
         //Rayon et clé API
         int radius = 10000;
@@ -92,26 +109,23 @@ public class GreetingController {
             System.out.println("Types: " + typeString);
         }
 
+        List<Search> listSearch = repositoryS.findAll() ;
         boolean startSearch = true ;
-        if (repositoryS.findAll() != null)
-        {
-            List<Search> listSearch = repositoryS.findAll() ;
-            for(Search search1 : listSearch){
-                if (search1.getType_search().equals("initial")){
-                    if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1) &&
-                            (search1.getMeteo().equals(conditionMeteo)) && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
-                            && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+        for(Search search1 : listSearch){
+            if (search1.getType_search().equals("initial")){
+                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1) &&
+                        (search1.getMeteo().equals(conditionMeteo)) && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                        && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
 
-                        startSearch = false;
-                    }
+                    startSearch = false;
                 }
-                else if (search1.getType_search().equals("preference")){
-                    if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1)
-                            && search1.getTypes().equals(typeString)
-                            && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
-                            && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
-                        startSearch = false;
-                    }
+            }
+            else if (search1.getType_search().equals("preference")){
+                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1)
+                        && search1.getTypes().equals(typeString)
+                        && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                        && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+                    startSearch = false;
                 }
             }
         }
