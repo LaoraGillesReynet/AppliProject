@@ -338,6 +338,8 @@ public class GreetingController {
                     resultGoogleRequest.sort(comparator);
                 }
                 break;
+            case "Importance":
+                break;
         }
         if (search.equals("null")){
             if (rayon.equals("null"))
