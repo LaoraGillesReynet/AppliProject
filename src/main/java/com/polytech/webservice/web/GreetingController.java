@@ -133,9 +133,6 @@ public class GreetingController {
                             System.out.println(typesGoogle);
                             placeString = placeString + "&types=" + typesGoogle;
                         }
-                        if (!maxPrice.equals("null")){
-                            placeString = placeString + "&maxprice=" + maxPrice;
-                        }
                         if (openNow.equals("true")){
                             placeString = placeString + "&opennow";
                         }
@@ -308,6 +305,7 @@ public class GreetingController {
         switch (sort) {
             case "default":
             case "dist":
+            case "Distance":
                 comparator = new Comparator<Place>() {
                     @Override
                     public int compare(Place o1, Place o2) {
@@ -327,7 +325,13 @@ public class GreetingController {
                     }
                 };
                 if (search.equals("null")){
-                    resultList.sort(comparator);
+                    if (rayon.equals("null")){
+                        resultList.sort(comparator);
+                    }
+                    else
+                    {
+                        resultGoogleRequest.sort(comparator);
+                    }
                 }
                 else
                 {
