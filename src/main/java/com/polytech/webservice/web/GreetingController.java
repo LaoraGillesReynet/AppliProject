@@ -40,7 +40,7 @@ public class GreetingController {
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
-        repositoryS.deleteAll();
+
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
