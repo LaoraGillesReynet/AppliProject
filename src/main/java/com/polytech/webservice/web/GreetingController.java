@@ -139,11 +139,28 @@ public class GreetingController {
             String placeString = "";
             int index_token = 0;
             PlaceRequest placeRequest = new PlaceRequest();
+            System.out.println(search);
+            System.out.println(pref);
+            System.out.println(rayon);
             while (next_page_token != null) {
                 //String de l'url avec paramètre
                 if (index_token == 0) {
                     if (search.equals("null") && pref.equals("null")) {
-                         if (!rayon.equals("null")) {
+                        if (rayon.equals("null")) {
+                            placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                            recherche.setType_search("initial");
+                            recherche.setLongitude(longitude);
+                            recherche.setLatitude(latitude);
+                            recherche.setTypes(typeString);
+                            recherche.setRayon(radius);
+                            recherche.setMeteo(conditionMeteo);
+                            recherche.setHeure(heure);
+                            recherche.setJour(jour);
+                            recherche.setMois(mois);
+                            recherche.setAnnee(annee);
+                            recherche.setAutocompleteString("");
+                            recherche.setOpenNow("");
+                        } else {
                             System.out.println("RECHERCHE AVANCE: je rentre ici !!!!");
                             recherche.setType_search("advance_search");
                             recherche.setLongitude(longitude);
@@ -174,20 +191,6 @@ public class GreetingController {
                             }
                             placeString = placeString + "&key=" + key;
                             System.out.println(placeString);
-                        } else {
-                            placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
-                            recherche.setType_search("initial");
-                            recherche.setLongitude(longitude);
-                            recherche.setLatitude(latitude);
-                            recherche.setTypes(typeString);
-                            recherche.setRayon(radius);
-                            recherche.setMeteo(conditionMeteo);
-                            recherche.setHeure(heure);
-                            recherche.setJour(jour);
-                            recherche.setMois(mois);
-                            recherche.setAnnee(annee);
-                            recherche.setAutocompleteString("");
-                            recherche.setOpenNow("");
                         }
                     } else if (pref.equals("null")) {
                         recherche.setType_search("autocomplete");
