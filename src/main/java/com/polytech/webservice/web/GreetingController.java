@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 import com.polytech.webservice.dataBdd.*;
+import sun.rmi.runtime.Log;
 
 /*
  * Created by Laora on 02/04/2017.
@@ -39,6 +40,7 @@ public class GreetingController {
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
+        repositoryS.deleteAll();
         int compteurGoogleRequest = 0;
         //Requête API Météo
         String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
@@ -156,6 +158,7 @@ public class GreetingController {
                             recherche.setAutocompleteString("");
                             recherche.setOpenNow("");
                         } else {
+                            System.out.println("RECHERCHE AVANCE: je rentre ici !!!!");
                             recherche.setType_search("advance_search");
                             recherche.setLongitude(longitude);
                             recherche.setLatitude(latitude);
