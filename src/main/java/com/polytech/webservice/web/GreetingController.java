@@ -72,7 +72,7 @@ public class GreetingController {
 
         Search firstRecherche = new Search();
 
-        firstRecherche.setType_search("non null");
+        /*firstRecherche.setType_search("non null");
         firstRecherche.setLongitude(0);
         firstRecherche.setLatitude(0);
         firstRecherche.setTypes("null");
@@ -86,6 +86,7 @@ public class GreetingController {
         firstRecherche.setOpenNow("null");
 
         repositoryS.save(firstRecherche);
+        */
 
         //Requête API Google Places
         //Rayon et clé API
@@ -148,6 +149,7 @@ public class GreetingController {
                     if (search.equals("null") && pref.equals("null")) {
                         if (rayon.equals("null")) {
                             placeString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&types=" + typeString + "&radius=" + radius + "&key=" + key;
+                            System.out.println(placeString);
                             recherche.setType_search("initial");
                             recherche.setLongitude(longitude);
                             recherche.setLatitude(latitude);
@@ -206,6 +208,7 @@ public class GreetingController {
                         recherche.setTypes("");
                         recherche.setOpenNow("");
                         placeString = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + search + "&key=" + key;
+                        System.out.println(placeString);
                     } else if (search.equals("null")) {
                         recherche.setType_search("preference");
                         recherche.setLongitude(longitude);
