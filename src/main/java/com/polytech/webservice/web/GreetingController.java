@@ -41,24 +41,9 @@ public class GreetingController {
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
         int compteurGoogleRequest = 0;
-        //Requête API Météo
-        String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
-        RestTemplate restTemplateMeteo = new RestTemplate();
-        MeteoRequest meteoRequest = restTemplateMeteo.getForObject(meteoString, MeteoRequest.class);
-        System.out.println(meteoRequest.toString());
-
-        // Variables importantes météo
-        int temperature = meteoRequest.getCurrent_condition().getTmp();
-        String date = meteoRequest.getCurrent_condition().getDate();
-        String day = meteoRequest.getFcst_day_0().getDay_short();
-        double altitude = meteoRequest.getForecast_info().getElevation();
-        String conditionMeteo = meteoRequest.getCurrent_condition().getCondition();
-        int vitesseVent = meteoRequest.getCurrent_condition().getWnd_spd();
-        String dirVent = meteoRequest.getCurrent_condition().getWnd_dir();
-
-        System.out.println("Nous sommes le " + day + " " + date + ", le temps est " + conditionMeteo + ", la température extérieure est de " + temperature + "°C.");
-        System.out.println("Vous vous trouvez à " + altitude + "m d'altitude, le vent souffle à " + vitesseVent + "km/h direction " + dirVent);
-
+        boolean startSearch = true ;
+        String typeString = "";
+        String conditionMeteo = "";
 
         //Heure grâce à Calendar
         Calendar cal = Calendar.getInstance();
@@ -69,66 +54,86 @@ public class GreetingController {
         int annee = cal.get(Calendar.YEAR);
         System.out.println(heure + "h " + minutes + "min ");
 
-        Search firstRecherche = new Search();
-
-        /*firstRecherche.setType_search("non null");
-        firstRecherche.setLongitude(0);
-        firstRecherche.setLatitude(0);
-        firstRecherche.setTypes("null");
-        firstRecherche.setRayon(0);
-        firstRecherche.setMeteo("null");
-        firstRecherche.setHeure(heure);
-        firstRecherche.setJour(jour);
-        firstRecherche.setMois(mois);
-        firstRecherche.setAnnee(annee);
-        firstRecherche.setAutocompleteString("null");
-        firstRecherche.setOpenNow("null");
-
-        repositoryS.save(firstRecherche);
-        */
-
-        //Requête API Google Places
-        //Rayon et clé API
-        int radius = 10000;
+        // clé API Google
         String key = "AIzaSyC9h5MYbC7YJB9DKdC4NUv4Pu91ip0UxS8";
 
-        //Initialisation des types
-        String typeString = "";
+        //Rayon
+        int radius = 10000;
+
         InitializerArrayTypes initializer = new InitializerArrayTypes();
-        if (search.equals("null")) {
-            if (pref.equals("null")) {
+
+        if (search.equals("null") && rayon.equals("null")){
+            if (pref.equals("null")){
+                /*  PREPARATION RECHERCHE INITIALE */
+
+                //Requête API Météo
+                String meteoString = "http://www.prevision-meteo.ch/services/json/lat=" + latitude + "lng=" + longitude;
+                RestTemplate restTemplateMeteo = new RestTemplate();
+                MeteoRequest meteoRequest = restTemplateMeteo.getForObject(meteoString, MeteoRequest.class);
+
+                // Variables importantes météo
+                int temperature = meteoRequest.getCurrent_condition().getTmp();
+                String date = meteoRequest.getCurrent_condition().getDate();
+                String day = meteoRequest.getFcst_day_0().getDay_short();
+                double altitude = meteoRequest.getForecast_info().getElevation();
+                conditionMeteo = meteoRequest.getCurrent_condition().getCondition();
+                int vitesseVent = meteoRequest.getCurrent_condition().getWnd_spd();
+                String dirVent = meteoRequest.getCurrent_condition().getWnd_dir();
+
+                System.out.println("Nous sommes le " + day + " " + date + ", le temps est " + conditionMeteo + ", la température extérieure est de " + temperature + "°C.");
+                System.out.println("Vous vous trouvez à " + altitude + "m d'altitude, le vent souffle à " + vitesseVent + "km/h direction " + dirVent);
+
                 initializer.initialize(heure, conditionMeteo, temperature);
-                System.out.println(initializer.getArrayTypes());
-            } else
+
+            }
+            else
+            {
+                /*  PREPARATION RECHERCHE PAR PREFERENCE (CATEGORIE) */
                 initializer.initialize_pref(pref);
+            }
 
-            for (String current : initializer.getArrayTypes()) {
-                typeString += '|' + current;
+            // INITIALE ET PREFERENCE COMMUN
+            if (search.equals("null")) {
+                if (pref.equals("null")) {
+
+                } else
+                    initializer.initialize_pref(pref);
+                for (String current : initializer.getArrayTypes()) {
+                    typeString += '|' + current;
+                }
+                if (!typeString.equals("")) {
+                    typeString = typeString.substring(1);
+                }
+                System.out.println("Types: " + typeString);
             }
-            if (!typeString.equals("")) {
-                typeString = typeString.substring(1);
+
+            List<Search> listSearch = repositoryS.findAll() ;
+            for(Search search1 : listSearch){
+                if (search1.getType_search().equals("initial")){
+                    if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1) &&
+                            (search1.getMeteo().equals(conditionMeteo)) && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                            && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+
+                        startSearch = false;
+                    }
+                }
+                else if (search1.getType_search().equals("preference")){
+                    if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1)
+                            && search1.getTypes().equals(typeString)
+                            && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
+                            && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
+                        startSearch = false;
+                    }
+                }
             }
-            System.out.println("Types: " + typeString);
         }
-
-        List<Search> listSearch = repositoryS.findAll() ;
-        boolean startSearch = true ;
-        for(Search search1 : listSearch){
-            if (search1.getType_search().equals("initial")){
-                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1) &&
-                        (search1.getMeteo().equals(conditionMeteo)) && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
-                        && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
-
-                    startSearch = false;
-                }
+        else{
+            if (search.equals("null")){
+                /*  PREPARATION RECHERCHE AVANCE */
             }
-            else if (search1.getType_search().equals("preference")){
-                if ((search1.getHeure() == heure) && (search1.getMois() == mois) && (search1.getAnnee() == annee) && (jour <= search1.getJour() + 1)
-                        && search1.getTypes().equals(typeString)
-                        && (latitude >= (search1.getLatitude() - 0.01) || latitude <= (search1.getLatitude() + 0.01))
-                        && (longitude >= (search1.getLongitude() - 0.01) || longitude <= (search1.getLongitude() + 0.01))){
-                    startSearch = false;
-                }
+            else
+            {
+                /*  PREPARATION RECHERCHE AUTOCOMPLETE */
             }
         }
 
