@@ -55,7 +55,7 @@ public class GreetingController {
         System.out.println(heure + "h " + minutes + "min ");
 
         // clé API Google
-        String key = "AIzaSyC9h5MYbC7YJB9DKdC4NUv4Pu91ip0UxS8";
+        String key = "AIzaSyCeb5X7OAdj5OoplVXXkKV0cAkuEp4FxEY";
 
         //Rayon
         int radius = 10000;
