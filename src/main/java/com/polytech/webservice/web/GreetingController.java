@@ -40,8 +40,6 @@ public class GreetingController {
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
-        repository.deleteAll();
-        repositoryS.deleteAll();
         int compteurGoogleRequest = 0;
         boolean startSearch = true;
         String typeString = "";
