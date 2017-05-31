@@ -100,6 +100,7 @@ public class InitializerArrayTypes {
                             arrayTypes.add("store");
                             arrayTypes.add("shopping_mall");
                             arrayTypes.add("church");
+                            arrayTypes.add("museum");
                         }
                         else{
 
@@ -148,7 +149,7 @@ public class InitializerArrayTypes {
                     }
                 }
             }
-            if (heure >= 17 && heure < 23)
+            if (heure >= 17 && heure < 22)
             {
                 arrayTypes.add("bar");
             }
