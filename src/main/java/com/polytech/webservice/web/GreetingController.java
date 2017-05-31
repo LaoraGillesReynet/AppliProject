@@ -386,10 +386,6 @@ public class GreetingController {
                 }
             }
         }
-        for (int i = 0; i< resultGoogleRequest.size(); i++)
-            System.out.println(resultGoogleRequest.get(i).getName());
-        for (int i = 0; i< resultList.size(); i++)
-            System.out.println(resultList.get(i).getName());
         Comparator<Place> comparator;
         switch (sort) {
             case "default":
