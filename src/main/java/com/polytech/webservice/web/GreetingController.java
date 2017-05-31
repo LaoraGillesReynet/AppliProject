@@ -39,6 +39,7 @@ public class GreetingController {
                                      @RequestParam(value="search", defaultValue = "null", required = false) String search, @RequestParam(value="pref", defaultValue="null", required = false) String pref,
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
+        repository.deleteAll();
         repositoryS.deleteAll();
         int compteurGoogleRequest = 0;
         boolean startSearch = true;
@@ -242,6 +243,7 @@ public class GreetingController {
 
                 index_token += 1;
                 boolean ok = false;
+                Place place = null;
                 for (int i = 0; i < placeRequest.getResults().size(); i++) {
                     for (Place place2 : repository.findAll()) {
                         if (place2.getName().equals(placeRequest.getResults().get(i).getName()) && !ok) {
@@ -260,7 +262,7 @@ public class GreetingController {
                         System.out.println(placeDetailRequest);
 
                         //Création et initialisation de l'objet Place avant ajout en bdd
-                        Place place = new Place();
+                        place = new Place();
                         place.setPlace_id(placeRequest.getResults().get(i).getPlace_id());
                         place.setName(placeRequest.getResults().get(i).getName());
                         place.setAddress(placeDetailRequest.getResult().getFormatted_address());
@@ -332,8 +334,8 @@ public class GreetingController {
                             place.setPhotoRef(photo);
                         }
                         repository.save(place);
-                        resultGoogleRequest.add(place);
                     }
+                    resultGoogleRequest.add(place);
                     ok = false;
                 }
                 System.out.println(placeRequest.toString());
@@ -433,7 +435,6 @@ public class GreetingController {
             if (rayon.equals("null"))
                 return resultList;
             else
-                resultGoogleRequest.toString();
                 return resultGoogleRequest;
         }
         else
