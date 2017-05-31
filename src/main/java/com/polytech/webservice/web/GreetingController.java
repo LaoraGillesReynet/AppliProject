@@ -40,6 +40,8 @@ public class GreetingController {
                                      @RequestParam(value="rayon", defaultValue="null", required = false) String rayon, @RequestParam(value="types", defaultValue="null", required = false) String types,
                                      @RequestParam(value="open", defaultValue="null", required = false) String openNow) {
 
+        repository.deleteAll();
+        repositoryS.deleteAll();
         int compteurGoogleRequest = 0;
         boolean startSearch = true;
         String typeString = "";
@@ -241,7 +243,7 @@ public class GreetingController {
                 boolean ok = false;
                 for (int i = 0; i < placeRequest.getResults().size(); i++) {
                     for (Place place2 : repository.findAll()) {
-                        if (place2.getName().equals(placeRequest.getResults().get(i).getName()) && !ok) {
+                        if (place2.getPlace_id().equals(placeRequest.getResults().get(i).getPlace_id()) && !ok) {
                             ok = true;
                             resultGoogleRequest.add(place2);
                         }
